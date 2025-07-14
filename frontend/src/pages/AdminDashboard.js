@@ -1012,10 +1012,11 @@ const ProofsOfGainsManager = ({ onSave, saving }) => {
   const fetchProofs = async () => {
     try {
       const response = await axios.get(`${API_URL}/proofs-of-gains`);
-      setProofs(response.data);
+      setProofs(Array.isArray(response.data) ? response.data : []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching proofs:', error);
+      setProofs([]);
       setLoading(false);
     }
   };
