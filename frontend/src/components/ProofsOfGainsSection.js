@@ -65,12 +65,21 @@ const ProofsOfGainsSection = () => {
           </p>
         </div>
 
-        {/* Proofs Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {activeProofs.map((proof, index) => (
+        {/* Proofs Grid - 3x2 Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          {activeProofs.slice(0, 6).map((proof, index) => (
             <ProofCard key={proof.id || index} proof={proof} />
           ))}
         </div>
+
+        {/* Show More Button if there are more than 6 proofs */}
+        {activeProofs.length > 6 && (
+          <div className="text-center mt-8">
+            <button className="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold py-3 px-6 rounded-lg transition-colors">
+              Ver Mais Provas
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );
