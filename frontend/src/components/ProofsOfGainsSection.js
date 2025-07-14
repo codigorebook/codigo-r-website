@@ -99,7 +99,7 @@ const ProofCard = ({ proof }) => {
 
   return (
     <div className="bg-gray-900 rounded-lg overflow-hidden border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
-      {/* Image Section */}
+      {/* Image Section - Smaller size */}
       {proof.image_base64 && !imageError && (
         <div className="relative">
           <img
@@ -107,35 +107,35 @@ const ProofCard = ({ proof }) => {
             alt={proof.image_alt || proof.title}
             onLoad={handleImageLoad}
             onError={handleImageError}
-            className={`w-full h-48 object-cover transition-opacity duration-300 ${
+            className={`w-full h-32 object-cover transition-opacity duration-300 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}
           />
           {!imageLoaded && (
             <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
-              <div className="text-gray-400">Carregando...</div>
+              <div className="text-gray-400 text-sm">Carregando...</div>
             </div>
           )}
           {/* Overlay com valor */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-            <div className="text-yellow-400 text-2xl font-bold">
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2">
+            <div className="text-yellow-400 text-lg font-bold">
               {proof.amount}
             </div>
           </div>
         </div>
       )}
 
-      {/* Content Section */}
-      <div className="p-6">
-        <h3 className="text-xl font-bold text-white mb-2">
+      {/* Content Section - Compact */}
+      <div className="p-4">
+        <h3 className="text-lg font-bold text-white mb-2 line-clamp-2">
           {proof.title}
         </h3>
-        <p className="text-gray-300 mb-4">
+        <p className="text-gray-300 mb-3 text-sm line-clamp-2">
           {proof.description}
         </p>
         
         {/* Stats */}
-        <div className="flex justify-between items-center text-sm">
+        <div className="flex justify-between items-center text-xs">
           <span className="text-gray-400">
             {proof.date}
           </span>
