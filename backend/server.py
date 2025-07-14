@@ -68,6 +68,26 @@ class VSLConfig(BaseModel):
     call_to_action: str = "Assista Agora"
     description: str = "Este vídeo contém informações confidenciais do meu método"
 
+class GeoPlatformMapping(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    country_code: str  # BR, US, CA, etc.
+    country_name: str  # Brasil, United States, etc.
+    primary_platform: str  # hotmart, clickbank, monetizze
+    backup_platforms: List[str] = []  # plataformas alternativas
+    enabled: bool = True
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class PlatformConfig(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    platform_name: str  # hotmart, clickbank, monetizze, eduzz, kiwify
+    display_name: str   # Nome para exibição
+    base_url: str      # URL da plataforma
+    commission_rate: Optional[float] = None  # Taxa de comissão
+    supported_countries: List[str] = []  # Países suportados
+    payment_methods: List[str] = []  # Métodos de pagamento
+    enabled: bool = True
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
 class ProofOfGains(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str
