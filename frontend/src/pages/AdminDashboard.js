@@ -155,6 +155,7 @@ const AdminDashboard = () => {
               { id: 'vsl-config', label: '🎬 Configurar VSL', color: 'text-purple-400' },
               { id: 'site-content', label: '✏️ Editar Textos', color: 'text-yellow-400' },
               { id: 'sections', label: '🎛️ Controle de Seções', color: 'text-pink-400' },
+              { id: 'elements-control', label: '🔧 Controle de Elementos', color: 'text-cyan-400' },
               { id: 'languages', label: '🌍 Idiomas', color: 'text-indigo-400' },
               { id: 'analytics', label: '📈 Analytics', color: 'text-red-400' }
             ].map((tab) => (
