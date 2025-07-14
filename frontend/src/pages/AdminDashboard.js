@@ -273,6 +273,14 @@ const AdminDashboard = () => {
           </div>
         )}
 
+        {/* Proofs of Gains Manager Tab */}
+        {activeTab === 'proofs-manager' && (
+          <ProofsOfGainsManager 
+            onSave={handleSave}
+            saving={saving}
+          />
+        )}
+
         {/* Buy Buttons Configuration - NOVA ABA SUPER DIDÁTICA */}
         {activeTab === 'buy-buttons' && (
           <div className="space-y-6">
