@@ -93,22 +93,32 @@ const ProofCard = ({ proof }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
+  // Verificações de segurança
+  if (!proof) {
+    return null;
+  }
+
   const handleImageLoad = () => {
     setImageLoaded(true);
   };
 
   const handleImageError = () => {
     setImageError(true);
+    console.error('Erro ao carregar imagem da prova:', proof.title);
   };
+
+  // Verificar se os dados essenciais existem
+  const hasImage = proof.image_base64 && proof.image_base64.length > 0;
+  const shouldShowAmount = proof.show_amount && proof.amount;
 
   return (
     <div className="bg-gray-900 rounded-lg overflow-hidden border border-gray-700 hover:border-yellow-400 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/20">
       {/* Image Section - Smaller size */}
-      {proof.image_base64 && !imageError && (
+      {hasImage && !imageError && (
         <div className="relative">
           <img
             src={`data:image/jpeg;base64,${proof.image_base64}`}
-            alt={proof.image_alt || proof.title}
+            alt={proof.image_alt || proof.title || 'Prova de ganhos'}
             onLoad={handleImageLoad}
             onError={handleImageError}
             className={`w-full h-32 object-cover transition-opacity duration-300 ${
@@ -121,7 +131,7 @@ const ProofCard = ({ proof }) => {
             </div>
           )}
           {/* Overlay com valor - só mostra se show_amount for true */}
-          {proof.show_amount && proof.amount && (
+          {shouldShowAmount && (
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2">
               <div className="text-yellow-400 text-lg font-bold">
                 {proof.amount}
@@ -131,21 +141,33 @@ const ProofCard = ({ proof }) => {
         </div>
       )}
 
+      {/* Fallback se não houver imagem ou der erro */}
+      {(!hasImage || imageError) && (
+        <div className="w-full h-32 bg-gray-800 flex items-center justify-center">
+          <div className="text-center">
+            <div className="text-gray-400 text-4xl mb-2">📊</div>
+            <div className="text-gray-400 text-sm">
+              {imageError ? 'Erro ao carregar imagem' : 'Sem imagem'}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Content Section - Compact */}
       <div className="p-4">
         <h3 className="text-lg font-bold text-white mb-2 line-clamp-2">
-          {proof.title}
+          {proof.title || 'Sem título'}
         </h3>
         <p className="text-gray-300 mb-3 text-sm line-clamp-2">
-          {proof.description}
+          {proof.description || 'Sem descrição'}
         </p>
         
         {/* Stats */}
         <div className="flex justify-between items-center text-xs">
           <span className="text-gray-400">
-            {proof.date}
+            {proof.date || 'Sem data'}
           </span>
-          {proof.show_amount && proof.amount && (
+          {shouldShowAmount && (
             <span className="text-yellow-400 font-bold">
               {proof.amount}
             </span>
