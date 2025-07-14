@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import HeroSection from '../components/HeroSection';
 import VSLSection from '../components/VSLSection';
 import FeaturesSection from '../components/FeaturesSection';
+import ProofsOfGainsSection from '../components/ProofsOfGainsSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import PricingSection from '../components/PricingSection';
 import Footer from '../components/Footer';
@@ -66,6 +67,9 @@ const LandingPage = () => {
       
       {/* Features Section - Can be hidden */}
       {sections.features !== false && <FeaturesSection />}
+      
+      {/* Proofs of Gains Section - Can be hidden */}
+      {sections.proofs_of_gains !== false && <ProofsOfGainsSection />}
       
       {/* Testimonials Section - Can be hidden */}
       {sections.testimonials !== false && <TestimonialsSection testimonials={config?.testimonials || []} />}
