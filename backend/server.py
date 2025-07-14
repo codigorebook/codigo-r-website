@@ -372,6 +372,15 @@ async def create_proof_of_gains(proof: ProofOfGains, admin_user: User = Depends(
     if "proofs_of_gains" not in content:
         content["proofs_of_gains"] = []
     
+    # Garantir que o ID seja único
+    if proof.id == 'new' or not proof.id:
+        proof.id = str(uuid.uuid4())
+    
+    # Verificar se já existe um proof com esse ID
+    existing_ids = [p.get("id") for p in content["proofs_of_gains"]]
+    while proof.id in existing_ids:
+        proof.id = str(uuid.uuid4())
+    
     content["proofs_of_gains"].append(proof.dict())
     content["updated_at"] = datetime.utcnow()
     await db.site_content.replace_one({"id": content["id"]}, content, upsert=True)
