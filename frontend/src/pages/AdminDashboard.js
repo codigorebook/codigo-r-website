@@ -785,6 +785,239 @@ const AdminDashboard = () => {
   );
 };
 
+// Componente para gerenciar provas de ganhos
+const ProofsOfGainsManager = ({ onSave, saving }) => {
+  const [proofs, setProofs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedProof, setSelectedProof] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
+
+  useEffect(() => {
+    fetchProofs();
+  }, []);
+
+  const fetchProofs = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/proofs-of-gains`);
+      setProofs(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching proofs:', error);
+      setLoading(false);
+    }
+  };
+
+  const handleAddProof = () => {
+    const newProof = {
+      id: 'new',
+      title: 'Nova Prova de Ganhos',
+      description: 'Descreva o resultado obtido',
+      amount: 'R$ 0,00',
+      date: new Date().toLocaleDateString('pt-BR'),
+      image_base64: null,
+      image_alt: '',
+      enabled: true
+    };
+    setSelectedProof(newProof);
+    setShowModal(true);
+  };
+
+  const handleEditProof = (proof) => {
+    setSelectedProof(proof);
+    setShowModal(true);
+  };
+
+  const handleSaveProof = async (proofData) => {
+    try {
+      if (proofData.id === 'new') {
+        await axios.post(`${API_URL}/proofs-of-gains`, proofData);
+      } else {
+        await axios.put(`${API_URL}/proofs-of-gains/${proofData.id}`, proofData);
+      }
+      await fetchProofs();
+      setShowModal(false);
+      setSelectedProof(null);
+    } catch (error) {
+      console.error('Error saving proof:', error);
+      alert('Erro ao salvar prova de ganhos');
+    }
+  };
+
+  const handleDeleteProof = async (proofId) => {
+    if (window.confirm('Tem certeza que deseja excluir esta prova de ganhos?')) {
+      try {
+        await axios.delete(`${API_URL}/proofs-of-gains/${proofId}`);
+        await fetchProofs();
+      } catch (error) {
+        console.error('Error deleting proof:', error);
+        alert('Erro ao excluir prova de ganhos');
+      }
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="text-center py-8">
+        <div className="text-white text-xl">Carregando provas de ganhos...</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-yellow-500 to-orange-500 rounded-lg p-6 text-white">
+        <h2 className="text-2xl font-bold mb-2">🏆 Gerenciar Provas de Ganhos</h2>
+        <p className="text-lg">Adicione imagens e resultados comprovados para aumentar a credibilidade</p>
+      </div>
+
+      {/* Instructions */}
+      <div className="bg-gray-800 rounded-lg p-6 border border-blue-500">
+        <h3 className="text-xl font-bold text-blue-400 mb-4">📋 GUIA PARA PROVAS DE GANHOS</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 className="font-bold text-white mb-3">✅ Imagens Ideais</h4>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-start space-x-2">
+                <span className="text-green-400">✓</span>
+                <span className="text-gray-300">Screenshots de ganhos reais</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-green-400">✓</span>
+                <span className="text-gray-300">Telas de broker ou exchange</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-green-400">✓</span>
+                <span className="text-gray-300">Gráficos de performance</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-green-400">✓</span>
+                <span className="text-gray-300">Formato JPG/PNG (máx 2MB)</span>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <h4 className="font-bold text-white mb-3">🎯 Dicas Importantes</h4>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-start space-x-2">
+                <span className="text-yellow-400">💡</span>
+                <span className="text-gray-300">Use títulos descritivos</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-yellow-400">💡</span>
+                <span className="text-gray-300">Inclua valores específicos</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-yellow-400">💡</span>
+                <span className="text-gray-300">Adicione datas para autenticidade</span>
+              </div>
+              <div className="flex items-start space-x-2">
+                <span className="text-yellow-400">💡</span>
+                <span className="text-gray-300">Layout 3x2 no site (6 imagens)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Add New Proof Button */}
+      <div className="flex justify-between items-center">
+        <h3 className="text-xl font-bold text-white">Provas de Ganhos Cadastradas</h3>
+        <button
+          onClick={handleAddProof}
+          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+        >
+          + Adicionar Nova Prova
+        </button>
+      </div>
+
+      {/* Proofs Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {proofs.map((proof) => (
+          <div key={proof.id} className="bg-gray-900 rounded-lg overflow-hidden border border-gray-700">
+            {/* Image Preview */}
+            {proof.image_base64 && (
+              <div className="relative">
+                <img
+                  src={`data:image/jpeg;base64,${proof.image_base64}`}
+                  alt={proof.image_alt || proof.title}
+                  className="w-full h-32 object-cover"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2">
+                  <div className="text-yellow-400 text-lg font-bold">
+                    {proof.amount}
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {/* Content */}
+            <div className="p-4">
+              <h4 className="text-white font-bold mb-2">{proof.title}</h4>
+              <p className="text-gray-300 text-sm mb-3">{proof.description}</p>
+              
+              <div className="flex justify-between items-center text-xs mb-3">
+                <span className="text-gray-400">{proof.date}</span>
+                <span className={`px-2 py-1 rounded text-xs ${
+                  proof.enabled ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+                }`}>
+                  {proof.enabled ? 'Ativo' : 'Inativo'}
+                </span>
+              </div>
+              
+              {/* Actions */}
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => handleEditProof(proof)}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-3 rounded transition-colors"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleDeleteProof(proof.id)}
+                  className="bg-red-600 hover:bg-red-700 text-white text-sm font-bold py-2 px-3 rounded transition-colors"
+                >
+                  Excluir
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Empty State */}
+      {proofs.length === 0 && (
+        <div className="text-center py-12">
+          <div className="text-6xl mb-4">🏆</div>
+          <h3 className="text-xl font-bold text-white mb-2">Nenhuma prova de ganhos cadastrada</h3>
+          <p className="text-gray-400 mb-4">Adicione suas primeiras provas de ganhos para aumentar a credibilidade</p>
+          <button
+            onClick={handleAddProof}
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+          >
+            Adicionar Primeira Prova
+          </button>
+        </div>
+      )}
+
+      {/* Modal for Add/Edit Proof */}
+      {showModal && (
+        <ProofModal
+          proof={selectedProof}
+          onSave={handleSaveProof}
+          onClose={() => {
+            setShowModal(false);
+            setSelectedProof(null);
+          }}
+        />
+      )}
+    </div>
+  );
+};
+
 // Componente para controle de visibilidade das seções
 const SectionToggle = ({ title, description, isActive, onToggle, canDisable, warning, stats }) => {
   return (
