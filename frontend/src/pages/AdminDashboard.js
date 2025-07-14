@@ -408,6 +408,216 @@ const AdminDashboard = () => {
           </div>
         )}
 
+        {/* Elements Control Tab */}
+        {activeTab === 'elements-control' && (
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg p-6 text-white">
+              <h2 className="text-2xl font-bold mb-2">🔧 Controle de Elementos</h2>
+              <p className="text-lg">Ative ou desative elementos específicos dentro de cada seção</p>
+            </div>
+
+            {/* Instructions */}
+            <div className="bg-gray-800 rounded-lg p-6 border border-blue-500">
+              <h3 className="text-xl font-bold text-blue-400 mb-4">💡 CONTROLE GRANULAR</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-bold text-white mb-3">🎯 O que você pode controlar</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✓</span>
+                      <span className="text-gray-300">Botões e call-to-actions</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✓</span>
+                      <span className="text-gray-300">Subtítulos e descrições</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✓</span>
+                      <span className="text-gray-300">Ícones e imagens</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✓</span>
+                      <span className="text-gray-300">Preços e garantias</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-bold text-white mb-3">🎨 Personalização Total</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-start space-x-2">
+                      <span className="text-yellow-400">⚡</span>
+                      <span className="text-gray-300">Mudanças aplicadas instantaneamente</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-yellow-400">⚡</span>
+                      <span className="text-gray-300">Cada elemento pode ser ativado/desativado</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-yellow-400">⚡</span>
+                      <span className="text-gray-300">Otimize para máxima conversão</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Elements Configuration */}
+            <div className="space-y-6">
+              
+              {/* Hero Section Elements */}
+              <div className="bg-gray-800 rounded-lg p-6 border border-green-500">
+                <h3 className="text-xl font-bold text-green-400 mb-4">🚀 Seção Hero - Elementos</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ElementToggle
+                    title="📝 Subtítulo"
+                    description="Texto explicativo abaixo do título principal"
+                    isActive={sections?.hero_subtitle !== false}
+                    onToggle={(value) => handleSectionToggle('hero_subtitle', value)}
+                  />
+                  <ElementToggle
+                    title="🎯 Botões de Call-to-Action"
+                    description="Botões 'Ver Vídeo' e 'Comprar Agora'"
+                    isActive={sections?.hero_cta_buttons !== false}
+                    onToggle={(value) => handleSectionToggle('hero_cta_buttons', value)}
+                  />
+                </div>
+              </div>
+
+              {/* VSL Section Elements */}
+              <div className="bg-gray-800 rounded-lg p-6 border border-purple-500">
+                <h3 className="text-xl font-bold text-purple-400 mb-4">🎬 Seção VSL - Elementos</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ElementToggle
+                    title="📄 Descrição do Vídeo"
+                    description="Texto explicativo abaixo do vídeo"
+                    isActive={sections?.vsl_description !== false}
+                    onToggle={(value) => handleSectionToggle('vsl_description', value)}
+                  />
+                  <ElementToggle
+                    title="🖼️ Thumbnail do Vídeo"
+                    description="Imagem de preview do vídeo"
+                    isActive={sections?.vsl_thumbnail !== false}
+                    onToggle={(value) => handleSectionToggle('vsl_thumbnail', value)}
+                  />
+                </div>
+              </div>
+
+              {/* Features Section Elements */}
+              <div className="bg-gray-800 rounded-lg p-6 border border-yellow-500">
+                <h3 className="text-xl font-bold text-yellow-400 mb-4">⭐ Seção de Benefícios - Elementos</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ElementToggle
+                    title="🎨 Ícones dos Benefícios"
+                    description="Ícones visuais para cada benefício"
+                    isActive={sections?.features_icons !== false}
+                    onToggle={(value) => handleSectionToggle('features_icons', value)}
+                  />
+                  <ElementToggle
+                    title="📝 Descrições Detalhadas"
+                    description="Texto explicativo de cada benefício"
+                    isActive={sections?.features_descriptions !== false}
+                    onToggle={(value) => handleSectionToggle('features_descriptions', value)}
+                  />
+                </div>
+              </div>
+
+              {/* Pricing Section Elements */}
+              <div className="bg-gray-800 rounded-lg p-6 border border-orange-500">
+                <h3 className="text-xl font-bold text-orange-400 mb-4">💰 Seção de Preços - Elementos</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ElementToggle
+                    title="🏷️ Preço Original (Riscado)"
+                    description="Preço original com desconto aplicado"
+                    isActive={sections?.pricing_original_price !== false}
+                    onToggle={(value) => handleSectionToggle('pricing_original_price', value)}
+                  />
+                  <ElementToggle
+                    title="🛡️ Garantia"
+                    description="Texto da garantia de satisfação"
+                    isActive={sections?.pricing_guarantee !== false}
+                    onToggle={(value) => handleSectionToggle('pricing_guarantee', value)}
+                  />
+                </div>
+              </div>
+
+              {/* Testimonials Section Elements */}
+              <div className="bg-gray-800 rounded-lg p-6 border border-blue-500">
+                <h3 className="text-xl font-bold text-blue-400 mb-4">💬 Seção de Depoimentos - Elementos</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ElementToggle
+                    title="⭐ Avaliações (Estrelas)"
+                    description="Sistema de estrelas nos depoimentos"
+                    isActive={sections?.testimonials_ratings !== false}
+                    onToggle={(value) => handleSectionToggle('testimonials_ratings', value)}
+                  />
+                  <ElementToggle
+                    title="👤 Fotos dos Clientes"
+                    description="Avatars/fotos dos depoentes"
+                    isActive={sections?.testimonials_photos !== false}
+                    onToggle={(value) => handleSectionToggle('testimonials_photos', value)}
+                  />
+                </div>
+              </div>
+
+              {/* Footer Section Elements */}
+              <div className="bg-gray-800 rounded-lg p-6 border border-indigo-500">
+                <h3 className="text-xl font-bold text-indigo-400 mb-4">🔻 Rodapé - Elementos</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ElementToggle
+                    title="🔗 Links das Redes Sociais"
+                    description="Ícones e links para redes sociais"
+                    isActive={sections?.footer_social_links !== false}
+                    onToggle={(value) => handleSectionToggle('footer_social_links', value)}
+                  />
+                  <ElementToggle
+                    title="📞 Informações de Contato"
+                    description="Email, telefone e endereço"
+                    isActive={sections?.footer_contact_info !== false}
+                    onToggle={(value) => handleSectionToggle('footer_contact_info', value)}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Summary */}
+            <div className="bg-gray-800 rounded-lg p-6">
+              <h3 className="text-xl font-bold text-white mb-6">📊 Resumo dos Elementos</h3>
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-400 mb-2">
+                    {sections ? Object.entries(sections).filter(([key, value]) => 
+                      key.includes('_') && value !== false
+                    ).length : 12}
+                  </div>
+                  <div className="text-sm text-gray-400">Elementos Ativos</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-red-400 mb-2">
+                    {sections ? Object.entries(sections).filter(([key, value]) => 
+                      key.includes('_') && value === false
+                    ).length : 0}
+                  </div>
+                  <div className="text-sm text-gray-400">Elementos Inativos</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-400 mb-2">12</div>
+                  <div className="text-sm text-gray-400">Total de Elementos</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-yellow-400 mb-2">
+                    {sections ? Math.round((Object.entries(sections).filter(([key, value]) => 
+                      key.includes('_') && value !== false
+                    ).length / 12) * 100) : 100}%
+                  </div>
+                  <div className="text-sm text-gray-400">Completude</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Sections Control Tab */}
         {activeTab === 'sections' && (
           <div className="space-y-6">
