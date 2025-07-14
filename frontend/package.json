@@ -1,52 +1,29 @@
-## **ARQUIVO 2: package.json** (dentro da pasta `frontend`)
-**(Crie uma pasta chamada `frontend` e dentro dela coloque este arquivo)**
-Action: file_editor view /app/codigo-r-deploy/frontend/package.json
-Observation: /app/codigo-r-deploy/frontend/package.json:
-1|{
-2|  "name": "frontend",
-3|  "version": "0.1.0",
-4|  "private": true,
-5|  "dependencies": {
-6|    "axios": "^1.8.4",
-7|    "cra-template": "1.2.0",
-8|    "react": "^19.0.0",
-9|    "react-dom": "^19.0.0",
-10|    "react-router-dom": "^7.5.1",
-11|    "react-scripts": "5.0.1"
-12|  },
-13|  "scripts": {
-14|    "start": "craco start",
-15|    "build": "craco build",
-16|    "test": "craco test",
-17|    "eject": "react-scripts eject"
-18|  },
-19|  "browserslist": {
-20|    "production": [
-21|      ">0.2%",
-22|      "not dead",
-23|      "not op_mini all"
-24|    ],
-25|    "development": [
-26|      "last 1 chrome version",
-27|      "last 1 firefox version",
-28|      "last 1 safari version"
-29|    ]
-30|  },
-31|  "devDependencies": {
-32|    "@craco/craco": "^7.1.0",
-33|    "@eslint/js": "9.23.0",
-34|    "autoprefixer": "^10.4.20",
-35|    "eslint": "9.23.0",
-36|    "eslint-plugin-import": "2.31.0",
-37|    "eslint-plugin-jsx-a11y": "6.10.2",
-38|    "eslint-plugin-react": "7.37.4",
-39|    "globals": "15.15.0",
-40|    "postcss": "^8.4.49",
-41|    "tailwindcss": "^3.4.17"
-42|  },
-43|  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
-44|}
-45|
-44|}
-45|
-45|
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.0",
+    "react-scripts": "5.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
