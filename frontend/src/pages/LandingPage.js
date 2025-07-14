@@ -7,6 +7,7 @@ import FeaturesSection from '../components/FeaturesSection';
 import TestimonialsSection from '../components/TestimonialsSection';
 import PricingSection from '../components/PricingSection';
 import Footer from '../components/Footer';
+import LegalDisclaimer from '../components/LegalDisclaimer';
 
 const LandingPage = () => {
   const [config, setConfig] = useState(null);
