@@ -116,12 +116,14 @@ const ProofCard = ({ proof }) => {
               <div className="text-gray-400 text-sm">Carregando...</div>
             </div>
           )}
-          {/* Overlay com valor */}
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2">
-            <div className="text-yellow-400 text-lg font-bold">
-              {proof.amount}
+          {/* Overlay com valor - só mostra se show_amount for true */}
+          {proof.show_amount && proof.amount && (
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2">
+              <div className="text-yellow-400 text-lg font-bold">
+                {proof.amount}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
 
