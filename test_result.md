@@ -308,6 +308,18 @@ Trader de criptomoedas precisava de um site moderno futurista para vender seu eb
         - agent: "main"
         - comment: "Sistema completo de 5 idiomas (PT, EN, ES, IT, FR) com detecção automática, seletor visual e persistência implementado com sucesso"
 
+  - task: "Sistema de Controle de Seções Frontend"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/AdminDashboard.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: true
+        - agent: "main"
+        - comment: "Painel administrativo com controle de visibilidade das seções implementado - toggles para ativar/desativar seções do site"
+
 ## metadata:
   created_by: "main_agent"
   version: "1.0"
