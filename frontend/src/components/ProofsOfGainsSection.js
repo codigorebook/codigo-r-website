@@ -71,9 +71,20 @@ const ProofsOfGainsSection = () => {
 
         {/* Proofs Grid - 3x2 Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {activeProofs.slice(0, 6).map((proof, index) => (
-            <ProofCard key={proof.id || index} proof={proof} />
-          ))}
+          {activeProofs.slice(0, 6).map((proof, index) => {
+            // Verificação extra de segurança
+            if (!proof || typeof proof !== 'object') {
+              console.warn('Prova inválida encontrada:', proof);
+              return null;
+            }
+            
+            return (
+              <ProofCard 
+                key={proof.id || `proof-${index}`} 
+                proof={proof} 
+              />
+            );
+          }).filter(Boolean)}
         </div>
 
         {/* Show More Button if there are more than 6 proofs */}
