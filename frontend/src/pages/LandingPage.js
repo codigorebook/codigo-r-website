@@ -57,6 +57,7 @@ const LandingPage = () => {
       <TestimonialsSection testimonials={config?.testimonials || []} />
       <PricingSection products={products} />
       <Footer />
+      <LegalDisclaimer />
     </div>
   );
 };
