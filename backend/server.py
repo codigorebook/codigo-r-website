@@ -38,6 +38,7 @@ class SectionToggle(BaseModel):
     hero: bool = True
     vsl: bool = True
     features: bool = True
+    proofs_of_gains: bool = True
     testimonials: bool = True
     pricing: bool = True
     faq: bool = True
