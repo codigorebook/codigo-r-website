@@ -423,14 +423,37 @@ async def create_proof_of_gains(proof: ProofOfGains, admin_user: User = Depends(
         proof.id = str(uuid.uuid4())
     
     # Verificar se já existe um proof com esse ID
-    existing_ids = [p.get("id") for p in content["proofs_of_gains"]]
+    existing_ids = [p.get("id") for p in content["proofs_of_gains"] if p and isinstance(p, dict)]
     while proof.id in existing_ids:
         proof.id = str(uuid.uuid4())
     
-    content["proofs_of_gains"].append(proof.dict())
+    # Validar dados da prova antes de salvar
+    proof_dict = proof.dict()
+    
+    # Validações adicionais
+    if not proof_dict.get("title") or not proof_dict.get("description"):
+        raise HTTPException(status_code=400, detail="Título e descrição são obrigatórios")
+    
+    # Validar base64 se presente
+    if proof_dict.get("image_base64"):
+        image_data = proof_dict["image_base64"]
+        if not isinstance(image_data, str) or len(image_data) < 100:
+            raise HTTPException(status_code=400, detail="Dados da imagem inválidos")
+    
+    # Garantir campos obrigatórios
+    proof_dict.setdefault("enabled", True)
+    proof_dict.setdefault("show_amount", True)
+    proof_dict.setdefault("date", datetime.utcnow().strftime("%d/%m/%Y"))
+    
+    content["proofs_of_gains"].append(proof_dict)
     content["updated_at"] = datetime.utcnow()
-    await db.site_content.replace_one({"id": content["id"]}, content, upsert=True)
-    return proof
+    
+    try:
+        await db.site_content.replace_one({"id": content["id"]}, content, upsert=True)
+        return ProofOfGains(**proof_dict)
+    except Exception as e:
+        print(f"Erro ao salvar prova: {e}")
+        raise HTTPException(status_code=500, detail="Erro interno ao salvar prova")
 
 @api_router.put("/proofs-of-gains/{proof_id}", response_model=ProofOfGains)
 async def update_proof_of_gains(proof_id: str, updated_proof: ProofOfGains, admin_user: User = Depends(get_admin_user)):
