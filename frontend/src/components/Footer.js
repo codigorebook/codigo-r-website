@@ -61,13 +61,23 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p className="text-gray-400 text-sm">
-            {t('footer.copyright')}
-          </p>
-          <p className="text-gray-500 text-xs mt-2">
-            {t('footer.disclaimer')}
-          </p>
+        <div className="border-t border-gray-800 mt-8 pt-8">
+          {/* Investment Warning - Destacado */}
+          <div className="bg-yellow-900/30 border border-yellow-600 rounded-lg p-4 mb-6">
+            <p className="text-yellow-200 text-sm leading-relaxed">
+              {t('footer.investment.warning')}
+            </p>
+          </div>
+          
+          {/* Copyright */}
+          <div className="text-center">
+            <p className="text-gray-400 text-sm">
+              {t('footer.copyright')}
+            </p>
+            <p className="text-gray-500 text-xs mt-2">
+              {t('footer.disclaimer')}
+            </p>
+          </div>
         </div>
       </div>
     </footer>
