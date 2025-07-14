@@ -1061,11 +1061,13 @@ const ProofsOfGainsManager = ({ onSave, saving }) => {
   const handleDeleteProof = async (proofId) => {
     if (window.confirm('Tem certeza que deseja excluir esta prova de ganhos?')) {
       try {
+        console.log('Deletando prova com ID:', proofId); // Debug
         await axios.delete(`${API_URL}/proofs-of-gains/${proofId}`);
-        await fetchProofs();
+        await fetchProofs(); // Recarregar lista
+        alert('Prova de ganhos excluída com sucesso!');
       } catch (error) {
         console.error('Error deleting proof:', error);
-        alert('Erro ao excluir prova de ganhos');
+        alert('Erro ao excluir prova de ganhos: ' + (error.response?.data?.detail || error.message));
       }
     }
   };
