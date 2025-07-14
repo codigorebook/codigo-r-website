@@ -1469,6 +1469,41 @@ const ProofModal = ({ proof, onSave, onClose }) => {
   );
 };
 
+// Componente para controle de elementos específicos
+const ElementToggle = ({ title, description, isActive, onToggle }) => {
+  return (
+    <div className={`rounded-lg p-4 border transition-all ${
+      isActive ? 'bg-gray-700 border-green-400' : 'bg-gray-800 border-red-400'
+    }`}>
+      <div className="flex items-center justify-between">
+        <div className="flex-1">
+          <div className="flex items-center space-x-3 mb-1">
+            <h4 className="text-white font-bold">{title}</h4>
+            <span className={`px-2 py-1 rounded text-xs font-bold ${
+              isActive ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+            }`}>
+              {isActive ? 'ON' : 'OFF'}
+            </span>
+          </div>
+          <p className="text-gray-300 text-sm">{description}</p>
+        </div>
+        
+        <div className="ml-4">
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              checked={isActive}
+              onChange={(e) => onToggle(e.target.checked)}
+              className="sr-only peer"
+            />
+            <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Componente para controle de visibilidade das seções
 const SectionToggle = ({ title, description, isActive, onToggle, canDisable, warning, stats }) => {
   return (
