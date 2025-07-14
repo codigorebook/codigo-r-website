@@ -150,6 +150,7 @@ const AdminDashboard = () => {
             {[
               { id: 'overview', label: '📊 Visão Geral', color: 'text-blue-400' },
               { id: 'ebook-manager', label: '📚 Gerenciar Ebooks', color: 'text-green-400' },
+              { id: 'proofs-manager', label: '🏆 Provas de Ganhos', color: 'text-yellow-400' },
               { id: 'buy-buttons', label: '🛒 Botões de Compra', color: 'text-orange-400' },
               { id: 'vsl-config', label: '🎬 Configurar VSL', color: 'text-purple-400' },
               { id: 'site-content', label: '✏️ Editar Textos', color: 'text-yellow-400' },
