@@ -1396,34 +1396,51 @@ const ProofModal = ({ proof, onSave, onClose }) => {
             />
           </div>
 
-          {/* Valor */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                💰 Valor/Porcentagem *
+          {/* Valor e Controle de Visibilidade */}
+          <div>
+            <div className="flex items-center mb-2">
+              <label className="block text-sm font-medium text-gray-300">
+                💰 Valor/Porcentagem
               </label>
-              <input
-                type="text"
-                value={formData.amount}
-                onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
-                placeholder="Ex: R$ 15.420 ou +76.23%"
-                required
-              />
+              <label className="flex items-center ml-4">
+                <input
+                  type="checkbox"
+                  checked={formData.show_amount}
+                  onChange={(e) => setFormData(prev => ({ ...prev, show_amount: e.target.checked }))}
+                  className="mr-2"
+                />
+                <span className="text-sm text-gray-300">Mostrar valor na imagem</span>
+              </label>
             </div>
+            <input
+              type="text"
+              value={formData.amount}
+              onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
+              className={`w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white ${
+                !formData.show_amount ? 'opacity-50' : ''
+              }`}
+              placeholder="Ex: R$ 15.420 ou +76.23%"
+              disabled={!formData.show_amount}
+            />
+            {!formData.show_amount && (
+              <p className="text-yellow-400 text-xs mt-1">
+                ℹ️ Valor não será exibido na imagem quando esta opção estiver desativada
+              </p>
+            )}
+          </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                📅 Data
-              </label>
-              <input
-                type="text"
-                value={formData.date}
-                onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
-                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
-                placeholder="Ex: 07/10/2024"
-              />
-            </div>
+          {/* Data */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              📅 Data
+            </label>
+            <input
+              type="text"
+              value={formData.date}
+              onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+              placeholder="Ex: 07/10/2024"
+            />
           </div>
 
           {/* Texto Alternativo */}
