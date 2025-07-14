@@ -117,6 +117,9 @@ Trader de criptomoedas precisava de um site moderno futurista para vender seu eb
         - working: true
         - agent: "main"
         - comment: "API completa para configuração do site, títulos, subtítulos implementada"
+        - working: true
+        - agent: "testing"
+        - comment: "TESTED: Site configuration API fully functional. GET /api/site-content returns 22 fields including hero_title, hero_subtitle, features_title, pricing_title. GET /api/sections returns all 8 sections (header, hero, vsl, features, testimonials, pricing, faq, footer). PUT /api/sections works with admin auth and persists changes. VSL config endpoint working."
 
   - task: "Sistema de Produtos"
     implemented: true
