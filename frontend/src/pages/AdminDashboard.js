@@ -1158,11 +1158,20 @@ const ProofsOfGainsManager = ({ onSave, saving }) => {
                   alt={proof.image_alt || proof.title}
                   className="w-full h-32 object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2">
-                  <div className="text-yellow-400 text-lg font-bold">
-                    {proof.amount}
+                {proof.show_amount && proof.amount && (
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2">
+                    <div className="text-yellow-400 text-lg font-bold">
+                      {proof.amount}
+                    </div>
                   </div>
-                </div>
+                )}
+                {!proof.show_amount && (
+                  <div className="absolute top-2 right-2">
+                    <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded">
+                      Sem valor
+                    </span>
+                  </div>
+                )}
               </div>
             )}
             
