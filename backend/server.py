@@ -458,6 +458,114 @@ async def delete_proof_of_gains(proof_id: str, admin_user: User = Depends(get_ad
     print(f"Proof deletado. Restam {len(filtered_proofs)} proofs")
     return {"message": "Proof of gains deleted successfully"}
 
+# Geo-targeting and Platform Management
+@api_router.get("/geo-config")
+async def get_geo_config():
+    content = await db.site_content.find_one()
+    if not content:
+        return {
+            "geo_targeting_enabled": True,
+            "geo_platform_mappings": [],
+            "platform_configs": [],
+            "default_platform": "hotmart"
+        }
+    
+    return {
+        "geo_targeting_enabled": content.get("geo_targeting_enabled", True),
+        "geo_platform_mappings": content.get("geo_platform_mappings", []),
+        "platform_configs": content.get("platform_configs", []),
+        "default_platform": content.get("default_platform", "hotmart")
+    }
+
+@api_router.put("/geo-config")
+async def update_geo_config(config_data: dict, admin_user: User = Depends(get_admin_user)):
+    content = await db.site_content.find_one()
+    if not content:
+        content = SiteContent().dict()
+    
+    content.update({
+        "geo_targeting_enabled": config_data.get("geo_targeting_enabled", True),
+        "geo_platform_mappings": config_data.get("geo_platform_mappings", []),
+        "platform_configs": config_data.get("platform_configs", []),
+        "default_platform": config_data.get("default_platform", "hotmart"),
+        "updated_at": datetime.utcnow()
+    })
+    
+    await db.site_content.replace_one({"id": content["id"]}, content, upsert=True)
+    return {"message": "Geo configuration updated successfully"}
+
+@api_router.get("/detect-country")
+async def detect_country(request: Request):
+    """Detecta o país do usuário baseado no IP"""
+    try:
+        # Pegar IP real do usuário
+        client_ip = request.client.host
+        forwarded_for = request.headers.get("X-Forwarded-For")
+        real_ip = request.headers.get("X-Real-IP")
+        
+        # Priorizar headers de proxy
+        if forwarded_for:
+            client_ip = forwarded_for.split(',')[0].strip()
+        elif real_ip:
+            client_ip = real_ip
+            
+        # Para desenvolvimento local, usar IP público
+        if client_ip in ['127.0.0.1', 'localhost', '::1']:
+            client_ip = '8.8.8.8'  # IP público para teste
+            
+        # Usar API gratuita de geolocalização
+        import httpx
+        async with httpx.AsyncClient() as client:
+            response = await client.get(f"http://ip-api.com/json/{client_ip}")
+            data = response.json()
+            
+            if data.get("status") == "success":
+                return {
+                    "country_code": data.get("countryCode"),
+                    "country_name": data.get("country"),
+                    "region": data.get("regionName"),
+                    "city": data.get("city"),
+                    "ip": client_ip
+                }
+            else:
+                return {
+                    "country_code": "BR",  # Fallback para Brasil
+                    "country_name": "Brazil",
+                    "region": "Unknown",
+                    "city": "Unknown",
+                    "ip": client_ip
+                }
+                
+    except Exception as e:
+        print(f"Error detecting country: {e}")
+        return {
+            "country_code": "BR",  # Fallback para Brasil
+            "country_name": "Brazil", 
+            "region": "Unknown",
+            "city": "Unknown",
+            "ip": "unknown"
+        }
+
+@api_router.get("/recommended-platform/{country_code}")
+async def get_recommended_platform(country_code: str):
+    """Retorna a plataforma recomendada para um país específico"""
+    content = await db.site_content.find_one()
+    if not content or not content.get("geo_targeting_enabled", True):
+        return {"platform": content.get("default_platform", "hotmart")}
+    
+    # Buscar mapeamento para o país
+    mappings = content.get("geo_platform_mappings", [])
+    for mapping in mappings:
+        if mapping.get("country_code") == country_code and mapping.get("enabled", True):
+            return {
+                "platform": mapping.get("primary_platform"),
+                "backup_platforms": mapping.get("backup_platforms", []),
+                "country": mapping.get("country_name")
+            }
+    
+    # Fallback para plataforma padrão
+    return {"platform": content.get("default_platform", "hotmart")}
+
 # Section Toggle Management
 @api_router.get("/sections", response_model=SectionToggle)
 async def get_sections():
