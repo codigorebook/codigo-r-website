@@ -34,11 +34,13 @@ api_router = APIRouter(prefix="/api")
 
 # Enhanced Models
 class SectionToggle(BaseModel):
+    header: bool = True
     hero: bool = True
     vsl: bool = True
     features: bool = True
     testimonials: bool = True
     pricing: bool = True
+    faq: bool = True
     footer: bool = True
 
 class VSLConfig(BaseModel):
