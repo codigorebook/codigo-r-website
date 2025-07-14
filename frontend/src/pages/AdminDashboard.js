@@ -398,7 +398,193 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* Continue with other tabs... */}
+        {/* Sections Control Tab */}
+        {activeTab === 'sections' && (
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-pink-500 to-red-500 rounded-lg p-6 text-white">
+              <h2 className="text-2xl font-bold mb-2">🎛️ Controle de Seções</h2>
+              <p className="text-lg">Ative ou desative seções do seu site conforme necessário</p>
+            </div>
+
+            {/* Instructions */}
+            <div className="bg-gray-800 rounded-lg p-6 border border-blue-500">
+              <h3 className="text-xl font-bold text-blue-400 mb-4">📋 COMO FUNCIONA</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-bold text-white mb-3">✅ Seções Ativas</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✅</span>
+                      <span className="text-gray-300">Aparecem no site para os visitantes</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✅</span>
+                      <span className="text-gray-300">Contam para o funil de vendas</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✅</span>
+                      <span className="text-gray-300">Incluídas no sistema de analytics</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-bold text-white mb-3">❌ Seções Inativas</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-start space-x-2">
+                      <span className="text-red-400">❌</span>
+                      <span className="text-gray-300">Ocultas completamente do site</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-red-400">❌</span>
+                      <span className="text-gray-300">Não ocupam espaço na página</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-red-400">❌</span>
+                      <span className="text-gray-300">Podem ser reativadas a qualquer momento</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Sections Configuration */}
+            <div className="bg-gray-800 rounded-lg p-6">
+              <h3 className="text-xl font-bold text-white mb-6">⚙️ Configurar Visibilidade das Seções</h3>
+              
+              <div className="space-y-6">
+                {/* Header Section */}
+                <SectionToggle
+                  title="🏠 Cabeçalho (Header)"
+                  description="Logo, menu de navegação e seletor de idiomas"
+                  isActive={sections?.header !== false}
+                  onToggle={(value) => handleSectionToggle('header', value)}
+                  canDisable={false}
+                  warning="⚠️ Seção obrigatória - não pode ser desativada"
+                />
+
+                {/* Hero Section */}
+                <SectionToggle
+                  title="🚀 Seção Hero"
+                  description="Título principal, subtítulo e call-to-action inicial"
+                  isActive={sections?.hero !== false}
+                  onToggle={(value) => handleSectionToggle('hero', value)}
+                  canDisable={false}
+                  warning="⚠️ Seção obrigatória - primeira impressão do visitante"
+                />
+
+                {/* VSL Section */}
+                <SectionToggle
+                  title="🎬 Seção VSL (Video Sales Letter)"
+                  description="Vídeo de vendas principal do funil"
+                  isActive={sections?.vsl !== false}
+                  onToggle={(value) => handleSectionToggle('vsl', value)}
+                  canDisable={true}
+                  stats="📊 Impacto: +70% nas conversões quando ativo"
+                />
+
+                {/* Features Section */}
+                <SectionToggle
+                  title="⭐ Seção de Benefícios"
+                  description="Cards com os principais benefícios do ebook"
+                  isActive={sections?.features !== false}
+                  onToggle={(value) => handleSectionToggle('features', value)}
+                  canDisable={true}
+                  stats="📊 Impacto: +50% no tempo de permanência"
+                />
+
+                {/* Testimonials Section */}
+                <SectionToggle
+                  title="💬 Seção de Depoimentos"
+                  description="Depoimentos de clientes e resultados"
+                  isActive={sections?.testimonials !== false}
+                  onToggle={(value) => handleSectionToggle('testimonials', value)}
+                  canDisable={true}
+                  stats="📊 Impacto: +40% na credibilidade"
+                />
+
+                {/* Pricing Section */}
+                <SectionToggle
+                  title="💰 Seção de Preços"
+                  description="Preços e botões de compra"
+                  isActive={sections?.pricing !== false}
+                  onToggle={(value) => handleSectionToggle('pricing', value)}
+                  canDisable={false}
+                  warning="⚠️ Seção obrigatória - necessária para vendas"
+                />
+
+                {/* FAQ Section */}
+                <SectionToggle
+                  title="❓ Seção de FAQ"
+                  description="Perguntas frequentes e respostas"
+                  isActive={sections?.faq !== false}
+                  onToggle={(value) => handleSectionToggle('faq', value)}
+                  canDisable={true}
+                  stats="📊 Impacto: -30% nas objeções de compra"
+                />
+
+                {/* Footer Section */}
+                <SectionToggle
+                  title="🔻 Rodapé (Footer)"
+                  description="Links legais, avisos e informações da empresa"
+                  isActive={sections?.footer !== false}
+                  onToggle={(value) => handleSectionToggle('footer', value)}
+                  canDisable={false}
+                  warning="⚠️ Seção obrigatória - avisos legais necessários"
+                />
+              </div>
+            </div>
+
+            {/* Live Preview */}
+            <div className="bg-gray-800 rounded-lg p-6 border border-green-500">
+              <h3 className="text-xl font-bold text-green-400 mb-4">👁️ PREVIEW AO VIVO</h3>
+              <div className="bg-gray-700 rounded-lg p-4">
+                <div className="text-sm text-gray-300 mb-4">
+                  As alterações são aplicadas imediatamente no site. Visite seu site para ver o resultado:
+                </div>
+                <div className="flex items-center space-x-4">
+                  <a
+                    href="/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition-colors"
+                  >
+                    🔗 Visualizar Site
+                  </a>
+                  <span className="text-gray-400">
+                    Abrir em nova aba para ver as mudanças
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Summary Stats */}
+            <div className="bg-gray-800 rounded-lg p-6">
+              <h3 className="text-xl font-bold text-white mb-6">📊 Resumo das Seções</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-400 mb-2">
+                    {sections ? Object.values(sections).filter(s => s !== false).length : 8}
+                  </div>
+                  <div className="text-sm text-gray-400">Seções Ativas</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-red-400 mb-2">
+                    {sections ? Object.values(sections).filter(s => s === false).length : 0}
+                  </div>
+                  <div className="text-sm text-gray-400">Seções Inativas</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-yellow-400 mb-2">
+                    {sections ? Math.round((Object.values(sections).filter(s => s !== false).length / 8) * 100) : 100}%
+                  </div>
+                  <div className="text-sm text-gray-400">Site Completo</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         
         {/* Languages Management Tab */}
         {activeTab === 'languages' && (
