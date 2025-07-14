@@ -149,6 +149,12 @@ class SiteContent(BaseModel):
     proofs_subtitle: str = "Resultados comprovados do método Codigo R"
     proofs_of_gains: List[ProofOfGains] = []
     
+    # Geo-targeting and Platform Configuration
+    geo_targeting_enabled: bool = True
+    geo_platform_mappings: List[GeoPlatformMapping] = []
+    platform_configs: List[PlatformConfig] = []
+    default_platform: str = "hotmart"  # Fallback se não detectar país
+    
     # Pricing Section
     pricing_title: str = "Investimento Único"
     pricing_subtitle: str = "Acesso completo ao método que mudou minha vida"
