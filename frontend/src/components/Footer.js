@@ -1,6 +1,9 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const Footer = () => {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-gray-900 border-t border-gray-800 py-12">
       <div className="container mx-auto px-4">
@@ -13,22 +16,22 @@ const Footer = () => {
               <span className="text-xl font-bold text-white">Codigo R</span>
             </div>
             <p className="text-gray-400 text-sm">
-              Transformando traders iniciantes em profissionais lucrativos através de métodos testados e comprovados.
+              {t('footer.description')}
             </p>
           </div>
           
           <div>
-            <h4 className="text-white font-bold mb-4">Links Úteis</h4>
+            <h4 className="text-white font-bold mb-4">{t('footer.links')}</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li><a href="#home" className="hover:text-white transition-colors">Início</a></li>
-              <li><a href="#vsl" className="hover:text-white transition-colors">Vídeo</a></li>
-              <li><a href="#features" className="hover:text-white transition-colors">Benefícios</a></li>
-              <li><a href="#pricing" className="hover:text-white transition-colors">Preço</a></li>
+              <li><a href="#home" className="hover:text-white transition-colors">{t('nav.home')}</a></li>
+              <li><a href="#vsl" className="hover:text-white transition-colors">{t('nav.video')}</a></li>
+              <li><a href="#features" className="hover:text-white transition-colors">{t('nav.benefits')}</a></li>
+              <li><a href="#pricing" className="hover:text-white transition-colors">{t('nav.price')}</a></li>
             </ul>
           </div>
           
           <div>
-            <h4 className="text-white font-bold mb-4">Contato</h4>
+            <h4 className="text-white font-bold mb-4">{t('footer.contact')}</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
               <li>📧 contato@codigor.com</li>
               <li>📱 WhatsApp: (11) 99999-9999</li>
@@ -37,7 +40,7 @@ const Footer = () => {
           </div>
           
           <div>
-            <h4 className="text-white font-bold mb-4">Redes Sociais</h4>
+            <h4 className="text-white font-bold mb-4">{t('footer.social')}</h4>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white transition-colors">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -60,10 +63,10 @@ const Footer = () => {
         
         <div className="border-t border-gray-800 mt-8 pt-8 text-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Codigo R. Todos os direitos reservados.
+            {t('footer.copyright')}
           </p>
           <p className="text-gray-500 text-xs mt-2">
-            Este produto não garante a obtenção de resultados. Qualquer referência ao desempenho de uma estratégia não deve ser interpretada como uma garantia de resultados.
+            {t('footer.disclaimer')}
           </p>
         </div>
       </div>

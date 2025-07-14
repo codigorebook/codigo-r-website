@@ -1,7 +1,9 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import axios from 'axios';
 
 const PricingSection = ({ products }) => {
+  const { t } = useLanguage();
   const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
   const handleBuyClick = async (buttonInfo) => {
@@ -40,10 +42,10 @@ const PricingSection = ({ products }) => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-            Investimento Único
+            {t('pricing.title')}
           </h2>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Acesso completo ao método que mudou minha vida financeira
+            {t('pricing.subtitle')}
           </p>
         </div>
         
@@ -51,7 +53,7 @@ const PricingSection = ({ products }) => {
           <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg p-8 border-2 border-yellow-400 relative overflow-hidden">
             {/* Selo de Oferta */}
             <div className="absolute top-0 right-0 bg-red-500 text-white px-4 py-2 rounded-bl-lg font-bold">
-              OFERTA LIMITADA
+              {t('pricing.limited')}
             </div>
             
             <div className="text-center mb-8">
@@ -70,7 +72,7 @@ const PricingSection = ({ products }) => {
               </div>
               
               <div className="text-gray-400 text-sm mb-8">
-                ou 12x de R$ {(product.price / 12).toFixed(2)} sem juros
+                {t('pricing.installments', { amount: (product.price / 12).toFixed(2) })}
               </div>
             </div>
             
@@ -108,21 +110,21 @@ const PricingSection = ({ products }) => {
                   onClick={() => handleBuyClick(button)}
                   className={`w-full ${button.color} text-white font-bold py-4 px-6 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg`}
                 >
-                  COMPRAR AGORA - {button.platform}
+                  {t('pricing.buy')} - {button.platform}
                 </button>
               ))}
             </div>
             
             <div className="mt-8 text-center">
               <div className="bg-green-600 text-white rounded-lg p-4 mb-4">
-                <span className="font-bold">🔒 GARANTIA DE 7 DIAS</span>
-                <p className="text-sm mt-1">100% do seu dinheiro de volta se não ficar satisfeito</p>
+                <span className="font-bold">{t('pricing.guarantee')}</span>
+                <p className="text-sm mt-1">{t('pricing.guarantee.desc')}</p>
               </div>
               
               <div className="flex justify-center space-x-4 text-sm text-gray-400">
-                <span>🔐 Pagamento Seguro</span>
-                <span>📱 Acesso Imediato</span>
-                <span>🌟 Suporte 24h</span>
+                <span>{t('pricing.secure')}</span>
+                <span>{t('pricing.immediate')}</span>
+                <span>{t('pricing.support')}</span>
               </div>
             </div>
           </div>
@@ -130,9 +132,9 @@ const PricingSection = ({ products }) => {
         
         <div className="mt-16 text-center">
           <div className="bg-red-600 text-white rounded-lg p-6 max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold mb-2">⏰ ATENÇÃO!</h3>
+            <h3 className="text-2xl font-bold mb-2">{t('pricing.attention')}</h3>
             <p className="text-lg">
-              Esta oferta é por tempo limitado. O preço voltará para R$ 497 em breve!
+              {t('pricing.attention.desc')}
             </p>
           </div>
         </div>
