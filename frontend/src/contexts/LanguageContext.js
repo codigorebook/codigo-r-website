@@ -341,6 +341,7 @@ const translations = {
     'footer.social': 'Social Media',
     'footer.copyright': '© 2024 Codigo R. Tutti i diritti riservati.',
     'footer.disclaimer': 'Questo prodotto non garantisce l\'ottenimento di risultati. Qualsiasi riferimento alle prestazioni di una strategia non deve essere interpretato come garanzia di risultati.',
+    'footer.investment.warning': '⚠️ AVVISO IMPORTANTE: Questo ebook non costituisce raccomandazione di investimenti. Il contenuto presenta solo setup personale ed esperienze dell\'autore. Il trading comporta rischi e potresti perdere denaro. Fai sempre la tua analisi e consulta un professionista qualificato prima di investire.',
     
     // Loading and Common
     'loading': 'Caricamento...',
