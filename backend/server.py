@@ -338,6 +338,63 @@ async def update_funnel_config(funnel_config: FunnelConfig, admin_user: User = D
         await db.site_content.replace_one({"id": content["id"]}, content)
     return funnel_config
 
+# Proofs of Gains Management
+@api_router.get("/proofs-of-gains", response_model=List[ProofOfGains])
+async def get_proofs_of_gains():
+    content = await db.site_content.find_one()
+    if not content:
+        return []
+    return [ProofOfGains(**proof) for proof in content.get("proofs_of_gains", [])]
+
+@api_router.post("/proofs-of-gains", response_model=ProofOfGains)
+async def create_proof_of_gains(proof: ProofOfGains, admin_user: User = Depends(get_admin_user)):
+    content = await db.site_content.find_one()
+    if not content:
+        content = SiteContent().dict()
+    
+    if "proofs_of_gains" not in content:
+        content["proofs_of_gains"] = []
+    
+    content["proofs_of_gains"].append(proof.dict())
+    content["updated_at"] = datetime.utcnow()
+    await db.site_content.replace_one({"id": content["id"]}, content, upsert=True)
+    return proof
+
+@api_router.put("/proofs-of-gains/{proof_id}", response_model=ProofOfGains)
+async def update_proof_of_gains(proof_id: str, updated_proof: ProofOfGains, admin_user: User = Depends(get_admin_user)):
+    content = await db.site_content.find_one()
+    if not content:
+        raise HTTPException(status_code=404, detail="Site content not found")
+    
+    proofs = content.get("proofs_of_gains", [])
+    for i, proof in enumerate(proofs):
+        if proof.get("id") == proof_id:
+            proofs[i] = updated_proof.dict()
+            content["proofs_of_gains"] = proofs
+            content["updated_at"] = datetime.utcnow()
+            await db.site_content.replace_one({"id": content["id"]}, content)
+            return updated_proof
+    
+    raise HTTPException(status_code=404, detail="Proof of gains not found")
+
+@api_router.delete("/proofs-of-gains/{proof_id}")
+async def delete_proof_of_gains(proof_id: str, admin_user: User = Depends(get_admin_user)):
+    content = await db.site_content.find_one()
+    if not content:
+        raise HTTPException(status_code=404, detail="Site content not found")
+    
+    proofs = content.get("proofs_of_gains", [])
+    initial_length = len(proofs)
+    proofs = [proof for proof in proofs if proof.get("id") != proof_id]
+    
+    if len(proofs) == initial_length:
+        raise HTTPException(status_code=404, detail="Proof of gains not found")
+    
+    content["proofs_of_gains"] = proofs
+    content["updated_at"] = datetime.utcnow()
+    await db.site_content.replace_one({"id": content["id"]}, content)
+    return {"message": "Proof of gains deleted successfully"}
+
 # Section Toggle Management
 @api_router.get("/sections", response_model=SectionToggle)
 async def get_sections():
