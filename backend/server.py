@@ -34,6 +34,7 @@ api_router = APIRouter(prefix="/api")
 
 # Enhanced Models
 class SectionToggle(BaseModel):
+    # Main Sections
     header: bool = True
     hero: bool = True
     vsl: bool = True
@@ -43,6 +44,20 @@ class SectionToggle(BaseModel):
     pricing: bool = True
     faq: bool = True
     footer: bool = True
+    
+    # Granular Controls
+    hero_subtitle: bool = True
+    hero_cta_buttons: bool = True
+    features_icons: bool = True
+    features_descriptions: bool = True
+    pricing_original_price: bool = True
+    pricing_guarantee: bool = True
+    testimonials_ratings: bool = True
+    testimonials_photos: bool = True
+    footer_social_links: bool = True
+    footer_contact_info: bool = True
+    vsl_description: bool = True
+    vsl_thumbnail: bool = True
 
 class VSLConfig(BaseModel):
     enabled: bool = True
