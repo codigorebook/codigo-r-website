@@ -1018,6 +1018,246 @@ const ProofsOfGainsManager = ({ onSave, saving }) => {
   );
 };
 
+// Modal para adicionar/editar provas de ganhos
+const ProofModal = ({ proof, onSave, onClose }) => {
+  const [formData, setFormData] = useState({
+    title: proof?.title || '',
+    description: proof?.description || '',
+    amount: proof?.amount || '',
+    date: proof?.date || new Date().toLocaleDateString('pt-BR'),
+    image_base64: proof?.image_base64 || null,
+    image_alt: proof?.image_alt || '',
+    enabled: proof?.enabled !== false
+  });
+  const [imagePreview, setImagePreview] = useState(null);
+  const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    if (proof?.image_base64) {
+      setImagePreview(`data:image/jpeg;base64,${proof.image_base64}`);
+    }
+  }, [proof]);
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validar tamanho do arquivo
+      if (file.size > 2 * 1024 * 1024) { // 2MB
+        alert('Arquivo muito grande! Máximo 2MB.');
+        return;
+      }
+
+      // Validar tipo do arquivo
+      if (!file.type.startsWith('image/')) {
+        alert('Por favor, selecione apenas arquivos de imagem.');
+        return;
+      }
+
+      setUploading(true);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const base64String = event.target.result.split(',')[1];
+        setFormData(prev => ({
+          ...prev,
+          image_base64: base64String,
+          image_alt: formData.image_alt || formData.title
+        }));
+        setImagePreview(event.target.result);
+        setUploading(false);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.title || !formData.description || !formData.amount) {
+      alert('Por favor, preencha todos os campos obrigatórios.');
+      return;
+    }
+    
+    const proofData = {
+      ...proof,
+      ...formData,
+      id: proof?.id || 'new'
+    };
+    
+    onSave(proofData);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-bold text-white">
+            {proof?.id === 'new' ? 'Adicionar Nova Prova' : 'Editar Prova de Ganhos'}
+          </h3>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-white text-2xl"
+          >
+            ×
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Upload de Imagem */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              📸 Imagem da Prova *
+            </label>
+            <div className="border-2 border-dashed border-gray-600 rounded-lg p-4">
+              {imagePreview ? (
+                <div className="text-center">
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="max-h-48 mx-auto rounded-lg mb-2"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setImagePreview(null);
+                      setFormData(prev => ({ ...prev, image_base64: null }));
+                    }}
+                    className="text-red-400 hover:text-red-300 text-sm"
+                  >
+                    Remover Imagem
+                  </button>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <div className="text-gray-400 mb-2">
+                    {uploading ? 'Processando...' : 'Clique para selecionar uma imagem'}
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploading}
+                    className="hidden"
+                    id="imageUpload"
+                  />
+                  <label
+                    htmlFor="imageUpload"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors"
+                  >
+                    {uploading ? 'Processando...' : 'Selecionar Imagem'}
+                  </label>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Título */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              📝 Título *
+            </label>
+            <input
+              type="text"
+              value={formData.title}
+              onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+              placeholder="Ex: Lucro de R$ 15.420 em um dia"
+              required
+            />
+          </div>
+
+          {/* Descrição */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              📄 Descrição *
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+              rows="3"
+              placeholder="Descreva o resultado obtido..."
+              required
+            />
+          </div>
+
+          {/* Valor */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                💰 Valor/Porcentagem *
+              </label>
+              <input
+                type="text"
+                value={formData.amount}
+                onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+                placeholder="Ex: R$ 15.420 ou +76.23%"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                📅 Data
+              </label>
+              <input
+                type="text"
+                value={formData.date}
+                onChange={(e) => setFormData(prev => ({ ...prev, date: e.target.value }))}
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+                placeholder="Ex: 07/10/2024"
+              />
+            </div>
+          </div>
+
+          {/* Texto Alternativo */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              🏷️ Texto Alternativo (acessibilidade)
+            </label>
+            <input
+              type="text"
+              value={formData.image_alt}
+              onChange={(e) => setFormData(prev => ({ ...prev, image_alt: e.target.value }))}
+              className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white"
+              placeholder="Descrição da imagem para leitores de tela"
+            />
+          </div>
+
+          {/* Status */}
+          <div>
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                checked={formData.enabled}
+                onChange={(e) => setFormData(prev => ({ ...prev, enabled: e.target.checked }))}
+                className="mr-2"
+              />
+              <span className="text-white">Ativo (visível no site)</span>
+            </label>
+          </div>
+
+          {/* Botões */}
+          <div className="flex justify-end space-x-3 pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-colors"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-colors"
+            >
+              {proof?.id === 'new' ? 'Adicionar' : 'Salvar'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 // Componente para controle de visibilidade das seções
 const SectionToggle = ({ title, description, isActive, onToggle, canDisable, warning, stats }) => {
   return (
