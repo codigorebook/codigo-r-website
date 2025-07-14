@@ -766,6 +766,59 @@ const AdminDashboard = () => {
   );
 };
 
+// Componente para controle de visibilidade das seções
+const SectionToggle = ({ title, description, isActive, onToggle, canDisable, warning, stats }) => {
+  return (
+    <div className={`rounded-lg p-4 border-2 transition-all ${
+      isActive ? 'bg-gray-700 border-green-500' : 'bg-gray-800 border-red-500'
+    }`}>
+      <div className="flex items-center justify-between">
+        <div className="flex-1">
+          <div className="flex items-center space-x-3 mb-2">
+            <h4 className="text-lg font-bold text-white">{title}</h4>
+            <span className={`px-2 py-1 rounded text-xs font-bold ${
+              isActive ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+            }`}>
+              {isActive ? '✅ ATIVO' : '❌ INATIVO'}
+            </span>
+          </div>
+          <p className="text-gray-300 text-sm mb-2">{description}</p>
+          {stats && (
+            <p className="text-blue-400 text-xs">{stats}</p>
+          )}
+          {warning && (
+            <p className="text-yellow-400 text-xs">{warning}</p>
+          )}
+        </div>
+        
+        <div className="flex items-center space-x-4">
+          {canDisable ? (
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={isActive}
+                onChange={(e) => onToggle(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+              <span className="ml-3 text-sm font-medium text-gray-300">
+                {isActive ? 'Ativo' : 'Inativo'}
+              </span>
+            </label>
+          ) : (
+            <div className="flex items-center space-x-2">
+              <div className="w-11 h-6 bg-green-600 rounded-full relative">
+                <div className="absolute top-[2px] right-[2px] bg-white rounded-full h-5 w-5"></div>
+              </div>
+              <span className="text-sm font-medium text-gray-400">Obrigatório</span>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Componente para configurar cada botão de compra
 const BuyButtonConfig = ({ button, buttonIndex, ebook, onUpdate }) => {
   const [editingButton, setEditingButton] = useState(button);
