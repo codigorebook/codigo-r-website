@@ -130,11 +130,19 @@ const PricingSection = ({ products }) => {
           </div>
         </div>
         
-        <div className="mt-16 text-center">
+        <div className="mt-16 text-center space-y-6">
+          {/* Aviso de Atenção */}
           <div className="bg-red-600 text-white rounded-lg p-6 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold mb-2">{t('pricing.attention')}</h3>
             <p className="text-lg">
               {t('pricing.attention.desc')}
+            </p>
+          </div>
+          
+          {/* Aviso Legal de Investimentos */}
+          <div className="bg-yellow-900/30 border border-yellow-600 rounded-lg p-4 max-w-3xl mx-auto">
+            <p className="text-yellow-200 text-sm leading-relaxed">
+              {t('footer.investment.warning')}
             </p>
           </div>
         </div>
