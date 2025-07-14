@@ -141,9 +141,11 @@ const ProofCard = ({ proof }) => {
           <span className="text-gray-400">
             {proof.date}
           </span>
-          <span className="text-yellow-400 font-bold">
-            {proof.amount}
-          </span>
+          {proof.show_amount && proof.amount && (
+            <span className="text-yellow-400 font-bold">
+              {proof.amount}
+            </span>
+          )}
         </div>
       </div>
     </div>
