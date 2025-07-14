@@ -256,6 +256,26 @@ async def get_admin_user(current_user: User = Depends(get_current_user)):
 async def root():
     return {"message": "Codigo R Trading Setup API"}
 
+# Site Configuration
+@api_router.get("/config")
+async def get_config():
+    """Endpoint de configuração geral do site - compatibilidade com frontend"""
+    content = await db.site_content.find_one()
+    if not content:
+        return {}
+    
+    # Retorna apenas os campos que o frontend espera
+    return {
+        "hero_title": content.get("hero_title", ""),
+        "hero_subtitle": content.get("hero_subtitle", ""),
+        "hero_description": content.get("hero_description", ""),
+        "testimonials": content.get("testimonials", []),
+        "proofs_title": content.get("proofs_title", "Provas de Ganhos Reais"),
+        "proofs_subtitle": content.get("proofs_subtitle", "Resultados comprovados"),
+        "vsl_config": content.get("vsl_config", {}),
+        "geo_targeting_enabled": content.get("geo_targeting_enabled", False)
+    }
+
 # Enhanced Site Content Management
 @api_router.get("/site-content", response_model=SiteContent)
 async def get_site_content():
