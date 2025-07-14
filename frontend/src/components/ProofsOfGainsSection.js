@@ -50,7 +50,7 @@ const ProofsOfGainsSection = () => {
     return null;
   }
 
-  const activeProofs = proofs.filter(proof => proof.enabled);
+  const activeProofs = Array.isArray(proofs) ? proofs.filter(proof => proof && proof.enabled) : [];
 
   if (activeProofs.length === 0) {
     return null;
