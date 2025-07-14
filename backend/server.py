@@ -434,11 +434,22 @@ async def create_proof_of_gains(proof: ProofOfGains, admin_user: User = Depends(
     if not proof_dict.get("title") or not proof_dict.get("description"):
         raise HTTPException(status_code=400, detail="Título e descrição são obrigatórios")
     
-    # Validar base64 se presente
+    # VALIDAÇÃO RIGOROSA da imagem base64
     if proof_dict.get("image_base64"):
         image_data = proof_dict["image_base64"]
-        if not isinstance(image_data, str) or len(image_data) < 100:
-            raise HTTPException(status_code=400, detail="Dados da imagem inválidos")
+        if not isinstance(image_data, str):
+            raise HTTPException(status_code=400, detail="Formato de imagem inválido")
+        
+        # Limitar tamanho da string base64 para evitar problemas
+        if len(image_data) > 500000:  # ~375KB de imagem
+            raise HTTPException(status_code=400, detail="Imagem muito grande. Máximo 375KB.")
+        
+        # Verificar se é base64 válido
+        try:
+            import base64
+            base64.b64decode(image_data)
+        except Exception:
+            raise HTTPException(status_code=400, detail="Dados da imagem corrompidos")
     
     # Garantir campos obrigatórios
     proof_dict.setdefault("enabled", True)
