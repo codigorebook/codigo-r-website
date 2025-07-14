@@ -3,7 +3,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from pathlib import Path
@@ -22,7 +22,7 @@ client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 # JWT Configuration
-SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'your-secret-key-here')
+SECRET_KEY = os.environ.get('JWT_SECRET_KEY', 'codigo-r-super-secret-key-2024')
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -32,7 +32,86 @@ security = HTTPBearer()
 app = FastAPI(title="Codigo R - Trading Setup API")
 api_router = APIRouter(prefix="/api")
 
-# Models
+# Enhanced Models
+class SectionToggle(BaseModel):
+    hero: bool = True
+    vsl: bool = True
+    features: bool = True
+    testimonials: bool = True
+    pricing: bool = True
+    footer: bool = True
+
+class VSLConfig(BaseModel):
+    enabled: bool = True
+    title: str = "Assista ao Video e Descubra Como Ganhar Consistentemente"
+    subtitle: str = "Veja como eu transformei apenas R$ 1.000 em mais de R$ 100.000"
+    video_url: str = ""
+    video_thumbnail: str = ""
+    call_to_action: str = "Assista Agora"
+    description: str = "Este vídeo contém informações confidenciais do meu método"
+
+class FunnelStep(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    description: str
+    enabled: bool = True
+    order: int = 1
+
+class FunnelConfig(BaseModel):
+    enabled: bool = True
+    title: str = "Funil de Vendas Otimizado"
+    steps: List[FunnelStep] = []
+
+class EbookContent(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    subtitle: str
+    description: str
+    price: float
+    original_price: Optional[float] = None
+    features: List[str] = []
+    bonuses: List[str] = []
+    testimonials: List[dict] = []
+    buy_buttons: List[dict] = []
+    enabled: bool = True
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class SiteContent(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    # Hero Section
+    hero_title: str = "DOMINE O MERCADO CRIPTO"
+    hero_subtitle: str = "O Setup Completo que Transformou Minha Vida no Trading"
+    hero_description: str = "Descubra o método que uso para gerar lucros consistentes"
+    hero_cta_primary: str = "Ver Vídeo Agora"
+    hero_cta_secondary: str = "Comprar Agora"
+    
+    # Features Section
+    features_title: str = "O Que Você Vai Aprender"
+    features_subtitle: str = "Tudo o que você precisa para se tornar um trader profissional"
+    features_list: List[dict] = []
+    
+    # Testimonials Section
+    testimonials_title: str = "Depoimentos de Quem Já Lucra"
+    testimonials_subtitle: str = "Veja os resultados reais de pessoas que aplicaram o método"
+    
+    # Pricing Section
+    pricing_title: str = "Investimento Único"
+    pricing_subtitle: str = "Acesso completo ao método que mudou minha vida"
+    pricing_guarantee: str = "GARANTIA DE 7 DIAS - 100% do seu dinheiro de volta"
+    
+    # Footer
+    footer_description: str = "Transformando traders iniciantes em profissionais lucrativos"
+    footer_contact_email: str = "contato@codigor.com"
+    footer_contact_phone: str = "(11) 99999-9999"
+    footer_social_links: List[dict] = []
+    
+    # Toggle Controls
+    sections: SectionToggle = SectionToggle()
+    vsl_config: VSLConfig = VSLConfig()
+    funnel_config: FunnelConfig = FunnelConfig()
+    
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
 class Product(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
@@ -76,15 +155,6 @@ class Analytics(BaseModel):
     conversions: int = 0
     date: datetime = Field(default_factory=datetime.utcnow)
 
-class SiteConfig(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    site_title: str = "Codigo R - Trading Setup"
-    hero_title: str = "DOMINE O MERCADO CRIPTO"
-    hero_subtitle: str = "O Setup Completo que Transformou Minha Vida no Trading"
-    vsl_title: str = "Assista ao Video e Descubra Como Ganhar Consistentemente"
-    testimonials: List[dict] = []
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
-
 # Utility functions
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
@@ -125,24 +195,149 @@ async def get_admin_user(current_user: User = Depends(get_current_user)):
 async def root():
     return {"message": "Codigo R Trading Setup API"}
 
-# Site Configuration
-@api_router.get("/config", response_model=SiteConfig)
-async def get_site_config():
-    config = await db.site_config.find_one()
-    if not config:
-        # Create default config
-        default_config = SiteConfig()
-        await db.site_config.insert_one(default_config.dict())
-        return default_config
-    return SiteConfig(**config)
+# Enhanced Site Content Management
+@api_router.get("/site-content", response_model=SiteContent)
+async def get_site_content():
+    content = await db.site_content.find_one()
+    if not content:
+        # Create default content with enhanced features
+        default_features = [
+            {
+                "icon": "📈",
+                "title": "Setup Completo",
+                "description": "Configuração passo a passo de todas as ferramentas necessárias",
+                "enabled": True
+            },
+            {
+                "icon": "💰",
+                "title": "Estratégias Rentáveis",
+                "description": "Métodos testados e aprovados para gerar lucros consistentes",
+                "enabled": True
+            },
+            {
+                "icon": "🎯",
+                "title": "Gestão de Risco",
+                "description": "Aprenda a proteger seu capital e nunca mais perder dinheiro",
+                "enabled": True
+            },
+            {
+                "icon": "📊",
+                "title": "Análise Técnica",
+                "description": "Domine os indicadores mais importantes para decisões certeiras",
+                "enabled": True
+            },
+            {
+                "icon": "🤖",
+                "title": "Automação",
+                "description": "Configure bots e alertas para nunca perder oportunidades",
+                "enabled": True
+            },
+            {
+                "icon": "🏆",
+                "title": "Mindset Vencedor",
+                "description": "Desenvolva a mentalidade necessária para ser um trader profissional",
+                "enabled": True
+            }
+        ]
+        
+        default_content = SiteContent(features_list=default_features)
+        await db.site_content.insert_one(default_content.dict())
+        return default_content
+    return SiteContent(**content)
 
-@api_router.put("/config", response_model=SiteConfig)
-async def update_site_config(config: SiteConfig, admin_user: User = Depends(get_admin_user)):
-    config.updated_at = datetime.utcnow()
-    await db.site_config.replace_one({"id": config.id}, config.dict(), upsert=True)
-    return config
+@api_router.put("/site-content", response_model=SiteContent)
+async def update_site_content(content: SiteContent, admin_user: User = Depends(get_admin_user)):
+    content.updated_at = datetime.utcnow()
+    await db.site_content.replace_one({"id": content.id}, content.dict(), upsert=True)
+    return content
 
-# Products
+# Ebook Content Management
+@api_router.get("/ebooks", response_model=List[EbookContent])
+async def get_ebooks():
+    ebooks = await db.ebooks.find({"enabled": True}).to_list(100)
+    return [EbookContent(**ebook) for ebook in ebooks]
+
+@api_router.get("/ebooks/{ebook_id}", response_model=EbookContent)
+async def get_ebook(ebook_id: str):
+    ebook = await db.ebooks.find_one({"id": ebook_id})
+    if not ebook:
+        raise HTTPException(status_code=404, detail="Ebook not found")
+    return EbookContent(**ebook)
+
+@api_router.post("/ebooks", response_model=EbookContent)
+async def create_ebook(ebook: EbookContent, admin_user: User = Depends(get_admin_user)):
+    await db.ebooks.insert_one(ebook.dict())
+    return ebook
+
+@api_router.put("/ebooks/{ebook_id}", response_model=EbookContent)
+async def update_ebook(ebook_id: str, ebook: EbookContent, admin_user: User = Depends(get_admin_user)):
+    existing_ebook = await db.ebooks.find_one({"id": ebook_id})
+    if not existing_ebook:
+        raise HTTPException(status_code=404, detail="Ebook not found")
+    
+    ebook.id = ebook_id
+    await db.ebooks.replace_one({"id": ebook_id}, ebook.dict())
+    return ebook
+
+@api_router.delete("/ebooks/{ebook_id}")
+async def delete_ebook(ebook_id: str, admin_user: User = Depends(get_admin_user)):
+    result = await db.ebooks.delete_one({"id": ebook_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Ebook not found")
+    return {"message": "Ebook deleted successfully"}
+
+# VSL Management
+@api_router.get("/vsl-config", response_model=VSLConfig)
+async def get_vsl_config():
+    content = await db.site_content.find_one()
+    if not content:
+        return VSLConfig()
+    return VSLConfig(**content.get("vsl_config", {}))
+
+@api_router.put("/vsl-config", response_model=VSLConfig)
+async def update_vsl_config(vsl_config: VSLConfig, admin_user: User = Depends(get_admin_user)):
+    content = await db.site_content.find_one()
+    if content:
+        content["vsl_config"] = vsl_config.dict()
+        content["updated_at"] = datetime.utcnow()
+        await db.site_content.replace_one({"id": content["id"]}, content)
+    return vsl_config
+
+# Funnel Management
+@api_router.get("/funnel-config", response_model=FunnelConfig)
+async def get_funnel_config():
+    content = await db.site_content.find_one()
+    if not content:
+        return FunnelConfig()
+    return FunnelConfig(**content.get("funnel_config", {}))
+
+@api_router.put("/funnel-config", response_model=FunnelConfig)
+async def update_funnel_config(funnel_config: FunnelConfig, admin_user: User = Depends(get_admin_user)):
+    content = await db.site_content.find_one()
+    if content:
+        content["funnel_config"] = funnel_config.dict()
+        content["updated_at"] = datetime.utcnow()
+        await db.site_content.replace_one({"id": content["id"]}, content)
+    return funnel_config
+
+# Section Toggle Management
+@api_router.get("/sections", response_model=SectionToggle)
+async def get_sections():
+    content = await db.site_content.find_one()
+    if not content:
+        return SectionToggle()
+    return SectionToggle(**content.get("sections", {}))
+
+@api_router.put("/sections", response_model=SectionToggle)
+async def update_sections(sections: SectionToggle, admin_user: User = Depends(get_admin_user)):
+    content = await db.site_content.find_one()
+    if content:
+        content["sections"] = sections.dict()
+        content["updated_at"] = datetime.utcnow()
+        await db.site_content.replace_one({"id": content["id"]}, content)
+    return sections
+
+# Products (Legacy - keeping for compatibility)
 @api_router.get("/products", response_model=List[Product])
 async def get_products():
     products = await db.products.find({"is_active": True}).to_list(100)
@@ -176,12 +371,10 @@ async def update_product(product_id: str, product: ProductCreate, admin_user: Us
 # User Management
 @api_router.post("/register")
 async def register(user: UserCreate):
-    # Check if user exists
     existing_user = await db.users.find_one({"username": user.username})
     if existing_user:
         raise HTTPException(status_code=400, detail="Username already registered")
     
-    # Create user
     user_dict = user.dict()
     user_dict["password"] = hash_password(user.password)
     user_obj = User(**user_dict)
