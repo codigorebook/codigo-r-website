@@ -79,9 +79,6 @@ const LandingPage = () => {
       
       {/* Footer - Always visible */}
       {sections.footer !== false && <Footer />}
-      
-      {/* Legal Disclaimer - Always visible */}
-      <LegalDisclaimer />
     </div>
   );
 };
