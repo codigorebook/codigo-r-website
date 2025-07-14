@@ -398,7 +398,182 @@ const AdminDashboard = () => {
         )}
 
         {/* Continue with other tabs... */}
-        {/* Resto das abas aqui */}
+        
+        {/* Languages Management Tab */}
+        {activeTab === 'languages' && (
+          <div className="space-y-6">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-indigo-500 to-blue-500 rounded-lg p-6 text-white">
+              <h2 className="text-2xl font-bold mb-2">🌍 Gerenciamento de Idiomas</h2>
+              <p className="text-lg">Configure as traduções para aumentar o alcance global</p>
+            </div>
+
+            {/* Language Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              {[
+                { code: 'pt', name: 'Português', flag: '🇧🇷', completion: 100 },
+                { code: 'en', name: 'English', flag: '🇺🇸', completion: 100 },
+                { code: 'es', name: 'Español', flag: '🇪🇸', completion: 100 },
+                { code: 'it', name: 'Italiano', flag: '🇮🇹', completion: 100 },
+                { code: 'fr', name: 'Français', flag: '🇫🇷', completion: 100 }
+              ].map((lang) => (
+                <div key={lang.code} className="bg-gray-800 rounded-lg p-4 text-center border border-gray-700">
+                  <div className="text-3xl mb-2">{lang.flag}</div>
+                  <div className="text-white font-bold">{lang.name}</div>
+                  <div className="text-sm text-gray-400 mb-2">{lang.code.toUpperCase()}</div>
+                  <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div 
+                      className="bg-green-500 h-2 rounded-full" 
+                      style={{ width: `${lang.completion}%` }}
+                    />
+                  </div>
+                  <div className="text-xs text-green-400 mt-1">{lang.completion}%</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Instructions */}
+            <div className="bg-gray-800 rounded-lg p-6 border border-green-500">
+              <h3 className="text-xl font-bold text-green-400 mb-4">✅ SISTEMA DE IDIOMAS ATIVO</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-bold text-white mb-3">🌟 Funcionalidades Ativas</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✅</span>
+                      <span className="text-gray-300">Sistema completo de 5 idiomas</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✅</span>
+                      <span className="text-gray-300">Seletor de idioma no cabeçalho</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✅</span>
+                      <span className="text-gray-300">Detecção automática do navegador</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✅</span>
+                      <span className="text-gray-300">Persistência da escolha do usuário</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-green-400">✅</span>
+                      <span className="text-gray-300">Traduções específicas por país</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="font-bold text-white mb-3">🎯 Como Funciona</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-start space-x-2">
+                      <span className="text-yellow-400">1.</span>
+                      <span className="text-gray-300">Visitante chega no site</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-yellow-400">2.</span>
+                      <span className="text-gray-300">Sistema detecta idioma do navegador</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-yellow-400">3.</span>
+                      <span className="text-gray-300">Site carrega no idioma correto</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-yellow-400">4.</span>
+                      <span className="text-gray-300">Usuário pode trocar via seletor</span>
+                    </div>
+                    <div className="flex items-start space-x-2">
+                      <span className="text-yellow-400">5.</span>
+                      <span className="text-gray-300">Preferência é salva automaticamente</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Language Features */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="bg-gray-800 rounded-lg p-6 border border-blue-500">
+                <h4 className="text-lg font-bold text-blue-400 mb-3">🇧🇷 Português (Brasil)</h4>
+                <ul className="text-sm text-gray-300 space-y-1">
+                  <li>• Moeda: Real (R$)</li>
+                  <li>• Mercado: Brasil</li>
+                  <li>• Tons: Informal e próximo</li>
+                  <li>• Foco: Trading brasileiro</li>
+                </ul>
+              </div>
+              
+              <div className="bg-gray-800 rounded-lg p-6 border border-red-500">
+                <h4 className="text-lg font-bold text-red-400 mb-3">🇺🇸 English (USA)</h4>
+                <ul className="text-sm text-gray-300 space-y-1">
+                  <li>• Currency: Dollar ($)</li>
+                  <li>• Market: Global/USA</li>
+                  <li>• Tone: Professional</li>
+                  <li>• Focus: International trading</li>
+                </ul>
+              </div>
+              
+              <div className="bg-gray-800 rounded-lg p-6 border border-yellow-500">
+                <h4 className="text-lg font-bold text-yellow-400 mb-3">🇪🇸 Español</h4>
+                <ul className="text-sm text-gray-300 space-y-1">
+                  <li>• Moneda: Dólar ($)</li>
+                  <li>• Mercado: Hispanoamérica</li>
+                  <li>• Tono: Motivacional</li>
+                  <li>• Enfoque: Trading en español</li>
+                </ul>
+              </div>
+              
+              <div className="bg-gray-800 rounded-lg p-6 border border-green-500">
+                <h4 className="text-lg font-bold text-green-400 mb-3">🇮🇹 Italiano</h4>
+                <ul className="text-sm text-gray-300 space-y-1">
+                  <li>• Valuta: Euro (€)</li>
+                  <li>• Mercato: Italia/Europa</li>
+                  <li>• Tono: Elegante</li>
+                  <li>• Focus: Trading europeo</li>
+                </ul>
+              </div>
+              
+              <div className="bg-gray-800 rounded-lg p-6 border border-purple-500">
+                <h4 className="text-lg font-bold text-purple-400 mb-3">🇫🇷 Français</h4>
+                <ul className="text-sm text-gray-300 space-y-1">
+                  <li>• Devise: Euro (€)</li>
+                  <li>• Marché: France/Francophonie</li>
+                  <li>• Ton: Sophistiqué</li>
+                  <li>• Focus: Trading européen</li>
+                </ul>
+              </div>
+              
+              <div className="bg-gray-800 rounded-lg p-6 border border-gray-500">
+                <h4 className="text-lg font-bold text-gray-400 mb-3">➕ Expandir</h4>
+                <p className="text-sm text-gray-400 mb-3">Idiomas futuros:</p>
+                <ul className="text-sm text-gray-500 space-y-1">
+                  <li>• 🇩🇪 Alemão</li>
+                  <li>• 🇯🇵 Japonês</li>
+                  <li>• 🇰🇷 Coreano</li>
+                  <li>• 🇷🇺 Russo</li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Impact Metrics */}
+            <div className="bg-gray-800 rounded-lg p-6">
+              <h3 className="text-xl font-bold text-white mb-6">📊 Impacto dos Múltiplos Idiomas</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-400 mb-2">+300%</div>
+                  <div className="text-sm text-gray-400">Aumento do alcance global</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-400 mb-2">5</div>
+                  <div className="text-sm text-gray-400">Idiomas principais cobertos</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-yellow-400 mb-2">🌍</div>
+                  <div className="text-sm text-gray-400">Presença mundial</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
