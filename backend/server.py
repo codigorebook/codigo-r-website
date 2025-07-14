@@ -411,14 +411,25 @@ async def delete_proof_of_gains(proof_id: str, admin_user: User = Depends(get_ad
     
     proofs = content.get("proofs_of_gains", [])
     initial_length = len(proofs)
-    proofs = [proof for proof in proofs if proof.get("id") != proof_id]
     
-    if len(proofs) == initial_length:
-        raise HTTPException(status_code=404, detail="Proof of gains not found")
+    # Debug log
+    print(f"Tentando deletar proof com ID: {proof_id}")
+    print(f"IDs existentes: {[p.get('id') for p in proofs]}")
     
-    content["proofs_of_gains"] = proofs
+    # Filtrar removendo apenas o proof com o ID específico
+    filtered_proofs = []
+    for proof in proofs:
+        if proof.get("id") != proof_id:
+            filtered_proofs.append(proof)
+    
+    if len(filtered_proofs) == initial_length:
+        raise HTTPException(status_code=404, detail=f"Proof of gains with ID {proof_id} not found")
+    
+    content["proofs_of_gains"] = filtered_proofs
     content["updated_at"] = datetime.utcnow()
     await db.site_content.replace_one({"id": content["id"]}, content)
+    
+    print(f"Proof deletado. Restam {len(filtered_proofs)} proofs")
     return {"message": "Proof of gains deleted successfully"}
 
 # Section Toggle Management
