@@ -175,6 +175,18 @@ Trader de criptomoedas precisava de um site moderno futurista para vender seu eb
         - agent: "main"
         - comment: "Admin user criado - Username: admin, Password: admin123"
 
+  - task: "Sistema de Controle de Seções"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+        - agent: "testing"
+        - comment: "Sistema de toggle de seções implementado e testado - 8 seções configuráveis (header, hero, vsl, features, testimonials, pricing, faq, footer)"
+
 ## frontend:
   - task: "Landing Page Futurista"
     implemented: true
