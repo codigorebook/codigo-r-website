@@ -1283,8 +1283,13 @@ const ProofModal = ({ proof, onSave, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.title || !formData.description || !formData.amount) {
-      alert('Por favor, preencha todos os campos obrigatórios.');
+    if (!formData.title || !formData.description) {
+      alert('Por favor, preencha o título e a descrição.');
+      return;
+    }
+    
+    if (formData.show_amount && !formData.amount) {
+      alert('Por favor, preencha o valor ou desative a opção "Mostrar valor".');
       return;
     }
     
