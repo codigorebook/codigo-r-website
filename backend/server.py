@@ -52,6 +52,17 @@ class VSLConfig(BaseModel):
     call_to_action: str = "Assista Agora"
     description: str = "Este vídeo contém informações confidenciais do meu método"
 
+class ProofOfGains(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    title: str
+    description: str
+    amount: str  # Ex: "R$ 15.420,00" ou "+76.23%"
+    date: str
+    image_base64: Optional[str] = None  # Imagem em base64
+    image_alt: Optional[str] = None     # Texto alternativo para acessibilidade
+    enabled: bool = True
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
 class FunnelStep(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     title: str
