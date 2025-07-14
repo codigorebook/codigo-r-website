@@ -171,6 +171,7 @@ const translations = {
     'footer.social': 'Social Media',
     'footer.copyright': '© 2024 Codigo R. All rights reserved.',
     'footer.disclaimer': 'This product does not guarantee results. Any reference to strategy performance should not be interpreted as a guarantee of results.',
+    'footer.investment.warning': '⚠️ IMPORTANT NOTICE: This ebook does not constitute investment advice. The content presents only personal setup and author experiences. Trading involves risks and you may lose money. Always do your own analysis and consult a qualified professional before investing.',
     
     // Loading and Common
     'loading': 'Loading...',
