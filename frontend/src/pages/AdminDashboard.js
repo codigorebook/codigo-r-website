@@ -1238,6 +1238,7 @@ const ProofModal = ({ proof, onSave, onClose }) => {
     date: proof?.date || new Date().toLocaleDateString('pt-BR'),
     image_base64: proof?.image_base64 || null,
     image_alt: proof?.image_alt || '',
+    show_amount: proof?.show_amount !== false, // Nova opção
     enabled: proof?.enabled !== false
   });
   const [imagePreview, setImagePreview] = useState(null);
