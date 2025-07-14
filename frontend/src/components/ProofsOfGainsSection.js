@@ -18,11 +18,15 @@ const ProofsOfGainsSection = () => {
           axios.get(`${API_URL}/site-content`)
         ]);
         
-        setProofs(proofsResponse.data);
-        setSiteContent(contentResponse.data);
+        // Garantir que sempre temos arrays válidos
+        setProofs(Array.isArray(proofsResponse.data) ? proofsResponse.data : []);
+        setSiteContent(contentResponse.data || {});
         setLoading(false);
       } catch (error) {
         console.error('Error fetching proofs of gains:', error);
+        // Definir valores padrão em caso de erro
+        setProofs([]);
+        setSiteContent({});
         setLoading(false);
       }
     };
