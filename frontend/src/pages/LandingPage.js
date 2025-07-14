@@ -12,6 +12,7 @@ import LegalDisclaimer from '../components/LegalDisclaimer';
 const LandingPage = () => {
   const [config, setConfig] = useState(null);
   const [products, setProducts] = useState([]);
+  const [sections, setSections] = useState({});
   const [loading, setLoading] = useState(true);
 
   const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
@@ -29,6 +30,10 @@ const LandingPage = () => {
         // Fetch products
         const productsResponse = await axios.get(`${API_URL}/products`);
         setProducts(productsResponse.data);
+        
+        // Fetch sections configuration
+        const sectionsResponse = await axios.get(`${API_URL}/sections`);
+        setSections(sectionsResponse.data);
         
         setLoading(false);
       } catch (error) {
@@ -50,13 +55,28 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white">
-      <Header />
-      <HeroSection config={config} />
-      <VSLSection config={config} />
-      <FeaturesSection />
-      <TestimonialsSection testimonials={config?.testimonials || []} />
-      <PricingSection products={products} />
-      <Footer />
+      {/* Header - Always visible */}
+      {sections.header !== false && <Header />}
+      
+      {/* Hero Section - Always visible */}
+      {sections.hero !== false && <HeroSection config={config} />}
+      
+      {/* VSL Section - Can be hidden */}
+      {sections.vsl !== false && <VSLSection config={config} />}
+      
+      {/* Features Section - Can be hidden */}
+      {sections.features !== false && <FeaturesSection />}
+      
+      {/* Testimonials Section - Can be hidden */}
+      {sections.testimonials !== false && <TestimonialsSection testimonials={config?.testimonials || []} />}
+      
+      {/* Pricing Section - Always visible */}
+      {sections.pricing !== false && <PricingSection products={products} />}
+      
+      {/* Footer - Always visible */}
+      {sections.footer !== false && <Footer />}
+      
+      {/* Legal Disclaimer - Always visible */}
       <LegalDisclaimer />
     </div>
   );
