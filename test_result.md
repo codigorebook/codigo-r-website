@@ -275,17 +275,17 @@ Trader de criptomoedas precisava de um site moderno futurista para vender seu eb
         - agent: "main"
         - comment: "Context de autenticação com JWT e proteção de rotas admin"
 
-  - task: "Design Responsivo e Animações"
+  - task: "Sistema de Múltiplos Idiomas"
     implemented: true
     working: true
-    file: "frontend/src/App.css"
+    file: "frontend/src/contexts/LanguageContext.js"
     stuck_count: 0
-    priority: "medium"
+    priority: "high"
     needs_retesting: false
     status_history:
         - working: true
         - agent: "main"
-        - comment: "CSS futurista com animações, gradients, hover effects implementado"
+        - comment: "Sistema completo de 5 idiomas (PT, EN, ES, IT, FR) com detecção automática, seletor visual e persistência implementado com sucesso"
 
 ## metadata:
   created_by: "main_agent"
