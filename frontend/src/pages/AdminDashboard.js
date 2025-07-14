@@ -1281,15 +1281,39 @@ const ProofModal = ({ proof, onSave, onClose }) => {
       setUploading(true);
       const reader = new FileReader();
       reader.onload = (event) => {
-        const base64String = event.target.result.split(',')[1];
-        setFormData(prev => ({
-          ...prev,
-          image_base64: base64String,
-          image_alt: formData.image_alt || formData.title
-        }));
-        setImagePreview(event.target.result);
+        try {
+          const result = event.target.result;
+          if (result && typeof result === 'string') {
+            // Remover o prefixo data:image/type;base64, se presente
+            const base64String = result.includes(',') ? result.split(',')[1] : result;
+            
+            // Validar se é uma string base64 válida
+            if (base64String && base64String.length > 0) {
+              setFormData(prev => ({
+                ...prev,
+                image_base64: base64String,
+                image_alt: prev.image_alt || prev.title || 'Prova de ganhos'
+              }));
+              setImagePreview(result);
+            } else {
+              throw new Error('Dados da imagem inválidos');
+            }
+          } else {
+            throw new Error('Falha ao processar a imagem');
+          }
+        } catch (error) {
+          console.error('Erro ao processar imagem:', error);
+          alert('Erro ao processar a imagem. Tente com outro arquivo.');
+        } finally {
+          setUploading(false);
+        }
+      };
+      
+      reader.onerror = () => {
+        alert('Erro ao ler o arquivo. Tente novamente.');
         setUploading(false);
       };
+      
       reader.readAsDataURL(file);
     }
   };
