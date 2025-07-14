@@ -1,6 +1,9 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const HeroSection = ({ config }) => {
+  const { t } = useLanguage();
+
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated Background */}
@@ -28,11 +31,11 @@ const HeroSection = ({ config }) => {
       
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-yellow-400 via-orange-500 to-yellow-400 bg-clip-text text-transparent">
-          {config?.hero_title || 'DOMINE O MERCADO CRIPTO'}
+          {config?.hero_title || t('hero.title')}
         </h1>
         
         <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
-          {config?.hero_subtitle || 'O Setup Completo que Transformou Minha Vida no Trading'}
+          {config?.hero_subtitle || t('hero.subtitle')}
         </p>
         
         <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
@@ -40,29 +43,29 @@ const HeroSection = ({ config }) => {
             href="#vsl" 
             className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-gray-900 font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
-            Ver Vídeo Agora
+            {config?.hero_cta_primary || t('hero.cta.primary')}
           </a>
           
           <a 
             href="#pricing" 
             className="border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-gray-900 font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300"
           >
-            Comprar Agora
+            {config?.hero_cta_secondary || t('hero.cta.secondary')}
           </a>
         </div>
         
         <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-400">
           <div className="flex items-center space-x-2">
             <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-            <span>Método Testado</span>
+            <span>{t('hero.badge.tested')}</span>
           </div>
           <div className="flex items-center space-x-2">
             <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-            <span>100% Prático</span>
+            <span>{t('hero.badge.practical')}</span>
           </div>
           <div className="flex items-center space-x-2">
             <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-            <span>Resultados Reais</span>
+            <span>{t('hero.badge.results')}</span>
           </div>
         </div>
       </div>

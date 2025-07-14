@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 import axios from 'axios';
 
 const VSLSection = ({ config }) => {
+  const { t } = useLanguage();
   const [videoPlaying, setVideoPlaying] = useState(false);
 
   const API_URL = `${process.env.REACT_APP_BACKEND_URL}/api`;
@@ -20,11 +22,10 @@ const VSLSection = ({ config }) => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-            {config?.vsl_title || 'Assista ao Vídeo e Descubra Como Ganhar Consistentemente'}
+            {config?.vsl_title || t('vsl.title')}
           </h2>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Veja como eu transformei apenas R$ 1.000 em mais de R$ 100.000 em apenas 6 meses 
-            usando essa estratégia simples e eficaz.
+            {config?.subtitle || t('vsl.subtitle')}
           </p>
         </div>
         
@@ -49,8 +50,8 @@ const VSLSection = ({ config }) => {
                       <path d="M8 5v14l11-7z"/>
                     </svg>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">Vídeo Exclusivo</h3>
-                  <p className="text-gray-400">Clique para assistir a estratégia completa</p>
+                  <h3 className="text-xl font-bold text-white mb-2">{t('vsl.exclusive')}</h3>
+                  <p className="text-gray-400">{t('vsl.click')}</p>
                 </div>
               </div>
             )}
@@ -58,11 +59,11 @@ const VSLSection = ({ config }) => {
           
           <div className="mt-8 text-center">
             <p className="text-gray-400 text-sm mb-4">
-              ⚠️ Este vídeo contém informações confidenciais do meu método de trading
+              {t('vsl.warning')}
             </p>
             <div className="flex justify-center space-x-4">
-              <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm">🔴 AO VIVO</span>
-              <span className="bg-yellow-500 text-gray-900 px-3 py-1 rounded-full text-sm">⚡ LIMITADO</span>
+              <span className="bg-red-500 text-white px-3 py-1 rounded-full text-sm">{t('vsl.live')}</span>
+              <span className="bg-yellow-500 text-gray-900 px-3 py-1 rounded-full text-sm">{t('vsl.limited')}</span>
             </div>
           </div>
         </div>

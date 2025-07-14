@@ -1,36 +1,39 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const FeaturesSection = () => {
+  const { t } = useLanguage();
+
   const features = [
     {
       icon: '📈',
-      title: 'Setup Completo',
-      description: 'Configuração passo a passo de todas as ferramentas necessárias para operar com sucesso'
+      title: t('features.setup.title'),
+      description: t('features.setup.desc')
     },
     {
       icon: '💰',
-      title: 'Estratégias Rentáveis',
-      description: 'Métodos testados e aprovados que uso diariamente para gerar lucros consistentes'
+      title: t('features.strategies.title'),
+      description: t('features.strategies.desc')
     },
     {
       icon: '🎯',
-      title: 'Gestão de Risco',
-      description: 'Aprenda a proteger seu capital e nunca mais perder dinheiro por emocional'
+      title: t('features.risk.title'),
+      description: t('features.risk.desc')
     },
     {
       icon: '📊',
-      title: 'Análise Técnica',
-      description: 'Domine os indicadores mais importantes para tomar decisões certeiras'
+      title: t('features.analysis.title'),
+      description: t('features.analysis.desc')
     },
     {
       icon: '🤖',
-      title: 'Automação',
-      description: 'Configure bots e alertas para nunca perder uma oportunidade de lucro'
+      title: t('features.automation.title'),
+      description: t('features.automation.desc')
     },
     {
       icon: '🏆',
-      title: 'Mindset Vencedor',
-      description: 'Desenvolva a mentalidade necessária para ser um trader profissional'
+      title: t('features.mindset.title'),
+      description: t('features.mindset.desc')
     }
   ];
 
@@ -39,10 +42,10 @@ const FeaturesSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-            O Que Você Vai Aprender
+            {t('features.title')}
           </h2>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Tudo o que você precisa para se tornar um trader profissional e lucrativo
+            {t('features.subtitle')}
           </p>
         </div>
         
@@ -61,13 +64,13 @@ const FeaturesSection = () => {
         <div className="mt-16 text-center">
           <div className="bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg p-8 max-w-2xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">
-              🎁 BÔNUS EXCLUSIVOS
+              {t('features.bonus.title')}
             </h3>
             <div className="space-y-2 text-gray-900">
-              <p>✅ Planilha de Controle de Trades</p>
-              <p>✅ Lista de Moedas Recomendadas</p>
-              <p>✅ Script de Automação Gratuito</p>
-              <p>✅ Acesso ao Grupo VIP no Telegram</p>
+              <p>{t('features.bonus.spreadsheet')}</p>
+              <p>{t('features.bonus.coins')}</p>
+              <p>{t('features.bonus.script')}</p>
+              <p>{t('features.bonus.group')}</p>
             </div>
           </div>
         </div>
