@@ -107,6 +107,11 @@ class SiteContent(BaseModel):
     testimonials_title: str = "Depoimentos de Quem Já Lucra"
     testimonials_subtitle: str = "Veja os resultados reais de pessoas que aplicaram o método"
     
+    # Proofs of Gains Section
+    proofs_title: str = "Provas de Ganhos Reais"
+    proofs_subtitle: str = "Resultados comprovados do método Codigo R"
+    proofs_of_gains: List[ProofOfGains] = []
+    
     # Pricing Section
     pricing_title: str = "Investimento Único"
     pricing_subtitle: str = "Acesso completo ao método que mudou minha vida"
