@@ -795,7 +795,7 @@ const AdminDashboard = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-green-400 mb-2">
-                    {sections ? Object.values(sections).filter(s => s !== false).length : 8}
+                    {sections ? Object.values(sections).filter(s => s !== false).length : 9}
                   </div>
                   <div className="text-sm text-gray-400">Seções Ativas</div>
                 </div>
@@ -807,7 +807,7 @@ const AdminDashboard = () => {
                 </div>
                 <div className="text-center">
                   <div className="text-3xl font-bold text-yellow-400 mb-2">
-                    {sections ? Math.round((Object.values(sections).filter(s => s !== false).length / 8) * 100) : 100}%
+                    {sections ? Math.round((Object.values(sections).filter(s => s !== false).length / 9) * 100) : 100}%
                   </div>
                   <div className="text-sm text-gray-400">Site Completo</div>
                 </div>
