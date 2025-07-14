@@ -494,6 +494,16 @@ const AdminDashboard = () => {
                   stats="📊 Impacto: +50% no tempo de permanência"
                 />
 
+                {/* Proofs of Gains Section */}
+                <SectionToggle
+                  title="📊 Seção de Provas de Ganhos"
+                  description="Imagens e resultados comprovados do método"
+                  isActive={sections?.proofs_of_gains !== false}
+                  onToggle={(value) => handleSectionToggle('proofs_of_gains', value)}
+                  canDisable={true}
+                  stats="📊 Impacto: +80% na credibilidade e conversões"
+                />
+
                 {/* Testimonials Section */}
                 <SectionToggle
                   title="💬 Seção de Depoimentos"
