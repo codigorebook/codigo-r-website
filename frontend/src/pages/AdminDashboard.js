@@ -1025,10 +1025,11 @@ const ProofsOfGainsManager = ({ onSave, saving }) => {
       id: 'new',
       title: 'Nova Prova de Ganhos',
       description: 'Descreva o resultado obtido',
-      amount: 'R$ 0,00',
+      amount: '',
       date: new Date().toLocaleDateString('pt-BR'),
       image_base64: null,
       image_alt: '',
+      show_amount: true, // Por padrão ativo
       enabled: true
     };
     setSelectedProof(newProof);
